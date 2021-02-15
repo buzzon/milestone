@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from mscore.models import *
+
+admin.site.register(Space)
+admin.site.register(Task)
