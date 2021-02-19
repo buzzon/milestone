@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='space',
             name='owner',
-            field=models.ForeignKey(default='buzz0n', on_delete=django.db.models.deletion.CASCADE, to='auth.user'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='auth.user'),
             preserve_default=False,
         ),
     ]
