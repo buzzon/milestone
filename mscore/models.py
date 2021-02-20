@@ -23,6 +23,7 @@ class Task(models.Model):
     space = models.ForeignKey(Space, on_delete=models.CASCADE, related_name='tasks')
     title = models.CharField(blank=True, max_length=255)
     description = models.TextField(blank=True)
+    publish_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title

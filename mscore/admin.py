@@ -6,12 +6,14 @@ from mscore.models import *
 
 class TaskInline(admin.StackedInline):
     model = Task
+    readonly_fields = ('publish_date',)
     extra = 0
 
 
 @admin.register(Space)
 class SpaceAdmin(admin.ModelAdmin):
     list_display = ('title', 'owner', 'publish_date')
+    readonly_fields = ('publish_date',)
     list_filter = ('publish_date',)
     inlines = [TaskInline]
 
