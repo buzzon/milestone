@@ -3,8 +3,17 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 from mscore.models import *
 
-admin.site.register(Space)
-admin.site.register(Task)
+
+class TaskInline(admin.StackedInline):
+    model = Task
+    extra = 0
+
+
+@admin.register(Space)
+class SpaceAdmin(admin.ModelAdmin):
+    list_display = ('title', 'owner', 'publish_date')
+    list_filter = ('publish_date',)
+    inlines = [TaskInline]
 
 
 class PersonInLine(admin.StackedInline):
