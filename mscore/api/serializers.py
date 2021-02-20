@@ -2,9 +2,9 @@ from rest_framework import serializers
 from mscore.models import *
 
 
-class SpaceSerializer(serializers.ModelSerializer):
+class ComponentSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Space
+        model = Component
         fields = '__all__'
 
 
@@ -14,7 +14,9 @@ class TaskSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class ComponentSerializer(serializers.ModelSerializer):
+class SpaceSerializer(serializers.ModelSerializer):
+    tasks = TaskSerializer(many=True)
+
     class Meta:
-        model = Component
+        model = Space
         fields = '__all__'
