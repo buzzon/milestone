@@ -18,5 +18,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('', include('mscore.urls')),
+    path('api/', include('mscore.api.urls')),
     path('admin/', admin.site.urls),
 ]
