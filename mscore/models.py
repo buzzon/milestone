@@ -11,7 +11,7 @@ class Profile(models.Model):
 
 
 class Space(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, editable=False)
     title = models.CharField(blank=True, max_length=255)
     publish_date = models.DateTimeField(auto_now_add=True)
 

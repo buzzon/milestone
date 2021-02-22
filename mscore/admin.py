@@ -4,6 +4,9 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from mscore.models import *
 
 
+admin.site.register(Task)
+
+
 class TaskInline(admin.StackedInline):
     model = Task
     readonly_fields = ('publish_date',)
