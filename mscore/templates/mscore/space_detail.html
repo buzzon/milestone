@@ -1,0 +1,18 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1 class="cover-heading">{{ space_single.title }}</h1>
+{% if space_single.tasks.all %}
+<div>
+    {% for task in space_single.tasks.all %}
+    <div>
+        <h6>{{ task.title }}</h6>
+        <p>{{ task.description }}</p>
+
+    </div><br>
+    {% endfor %}
+</div>
+{% else %}
+<p>No tasks are available.</p>
+{% endif %}
+{% endblock %}
