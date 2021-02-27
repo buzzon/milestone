@@ -108,3 +108,22 @@ body {
 .mastfoot {
   color: rgba(255, 255, 255, .5);
 }
+
+/*
+ * Task
+ */
+.taskA{
+color:#17a2b8;
+}
+.taskW{
+color:#007bff;
+}
+.taskP{
+color:#6c757d;
+}
+.taskR{
+color:#28a745;
+}
+.taskC{
+color:#ffc107;
+}

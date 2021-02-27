@@ -6,9 +6,8 @@
 <div>
     {% for task in space_single.tasks.all %}
     <div>
-        <h6>{{ task.title }}</h6>
-        <p>{{ task.description }}</p>
-
+        <h6 class="task{{ task.status }}">{{ task.title }} ({{ task.get_status_display }})</h6>
+        <p class="task{{ task.status }}">{{ task.description }}</p>
     </div><br>
     {% endfor %}
 </div>
