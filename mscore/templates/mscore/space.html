@@ -8,17 +8,17 @@
 
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'mscore/css/styles.css' %}">
-    <title>Milestone</title>
+    <title>Spaces</title>
     <link rel="shortcut icon" href="{% static 'mscore/svg/logo.svg' %}"/>
 </head>
 <body class="text-center">
-<div class="cover-container d-flex h-100 w-100 p-3 mx-auto flex-column">
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
     <header class="masthead mb-auto">
         <div class="inner">
             <h3 class="masthead-brand">Milestone</h3>
             <nav class="nav nav-masthead justify-content-center">
-                <a class="nav-link active" href="{% url 'index' %}">Home</a>
-                <a class="nav-link" href="{% url 'space' %}">Spaces</a>
+                <a class="nav-link" href="{% url 'index' %}">Home</a>
+                <a class="nav-link active" href="{% url 'space' %}">Spaces</a>
                 <a class="nav-link" href="#">Sign in</a>
                 <a class="nav-link" href="#">Register</a>
             </nav>
@@ -26,9 +26,16 @@
     </header>
 
     <main role="main" class="inner cover">
-        <h1 class="cover-heading">Milestone helps teams work more productivity.</h1>
-        <p class="lead">Provides the transparency and control of individual responsibility necessary for effective
-            teamwork, and allows people to organize and track tasks.</p>
+        <h1 class="cover-heading">Spaces:</h1>
+        {% if space_data %}
+        <div>
+            {% for space in space_data %}
+            <a href="{% url 'space-detail' space.id %}">{{ space.title }}</a><br>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p>No spaces are available.</p>
+        {% endif %}
     </main>
 
     <footer class="mastfoot mt-auto">

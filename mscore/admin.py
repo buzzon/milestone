@@ -16,9 +16,13 @@ class TaskInline(admin.StackedInline):
 @admin.register(Space)
 class SpaceAdmin(admin.ModelAdmin):
     list_display = ('title', 'owner', 'publish_date')
-    readonly_fields = ('publish_date',)
+    readonly_fields = ('publish_date', 'owner')
     list_filter = ('publish_date',)
     inlines = [TaskInline]
+
+    def save_model(self, request, obj, form, change):
+        obj.owner = request.user
+        super().save_model(request, obj, form, change)
 
 
 class PersonInLine(admin.StackedInline):

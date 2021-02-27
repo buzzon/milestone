@@ -26,7 +26,7 @@ class TaskSerializer(serializers.ModelSerializer):
 
 
 class SpaceSerializer(serializers.ModelSerializer):
-    owner = serializers.PrimaryKeyRelatedField(read_only=True)
+    owner = UserSerializer(read_only=True)
     tasks = TaskSerializer(many=True, required=False)
 
     class Meta:
