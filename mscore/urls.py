@@ -5,11 +5,7 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('space/', views.space, name='space-list'),
+    path('space/create/', views.SpaceCreate.as_view(), name='space-create'),
     path('space/<int:pk>/change/', views.space_detail, name='space-detail'),
-]
-
-urlpatterns += [
-    path('space/create/', views.SpaceCreate.as_view(), name='space_create'),
-    # path(r'^space/(?P<pk>\d+)/update/$', views.AuthorUpdate.as_view(), name='author_update'),
-    # path(r'^space/(?P<pk>\d+)/delete/$', views.AuthorDelete.as_view(), name='author_delete'),
+    path('space/<int:pk>/delete/', views.DeleteView.as_view(), name='space-delete'),
 ]
