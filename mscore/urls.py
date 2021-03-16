@@ -7,4 +7,5 @@ urlpatterns = [
     path('space/', views.space, name='space-list'),
     path('space/create/', views.SpaceCreate.as_view(), name='space-create'),
     path('space/<int:pk>/change/', views.space_detail, name='space-detail'),
+    path('task/create/', views.TaskCreate.as_view(), name='task-create'),
 ]

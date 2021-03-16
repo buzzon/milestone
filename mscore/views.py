@@ -1,13 +1,13 @@
+import calendar
+from datetime import datetime
+
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404
 from django.shortcuts import render
 from django.views.generic import CreateView
 
 from mscore.api.views import SpaceList, SpaceDetail
-from mscore.models import Space
-import calendar
-from datetime import datetime
+from mscore.models import Space, Task
 
 
 def index(request):
@@ -31,6 +31,18 @@ class SpaceCreate(CreateView):
         kwargs = super(SpaceCreate, self).get_form_kwargs()
         if kwargs['instance'] is None:
             kwargs['instance'] = Space()
+        kwargs['instance'].owner = self.request.user
+        return kwargs
+
+
+class TaskCreate(CreateView):
+    model = Task
+    fields = '__all__'
+
+    def get_form_kwargs(self):
+        kwargs = super(TaskCreate, self).get_form_kwargs()
+        if kwargs['instance'] is None:
+            kwargs['instance'] = Task()
         kwargs['instance'].owner = self.request.user
         return kwargs
 

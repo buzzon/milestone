@@ -51,6 +51,12 @@ class Task(models.Model):
     def __str__(self):
         return self.title
 
+    # ОБЯЗАТЕЛЬНО УБРАТЬ ЭТОТ БРЕД ПОСЛЕ ПОДКЛЮЧЕНИЯ AJAX
+    @staticmethod
+    def get_absolute_url():
+        from django.urls import reverse
+        return reverse('space-list')
+
 
 class Component(models.Model):
     task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='components')
