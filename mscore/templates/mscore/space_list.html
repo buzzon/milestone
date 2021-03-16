@@ -1,14 +1,43 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-<h1 class="cover-heading">Spaces:</h1>
-{% if space_data %}
-<div>
+<div class="container">
+    {% if space_data %}
     {% for space in space_data %}
-    <a href="{% url 'space-detail' space.id %}">{{ space.title }}</a><br>
+    <div class="card no-gutters position-relative mt-3">
+        <div class="card-body">
+            <h5 class="card-title">{{ space.title }}</h5>
+            <a href="{% url 'space-detail' space.id %}" class="stretched-link">Go somewhere</a>
+        </div>
+    </div>
     {% endfor %}
+    {% else %}
+    <p>No spaces are available.</p>
+    {% endif %}
 </div>
-{% else %}
-<p>No spaces are available.</p>
-{% endif %}
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+<a href="#" data-toggle="modal" data-target="#exampleModal" style="position:absolute;bottom:5px;right:5px;margin:0;padding:5px 3px;"><i class="fas fa-plus-circle fa-3x"></i></a>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Space</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

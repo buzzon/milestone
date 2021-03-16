@@ -1,17 +1,49 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-<h1 class="cover-heading">{{ space_single.title }}</h1>
+
+
 {% if space_single.tasks.all %}
-<div>
+<div class="gantt">
+    <div class="row mx-0 border-bottom">
+        <div class="col-3"><h5>{{ space_single.title }}</h5></div>
+        <div class="col">date</div>
+    </div>
     {% for task in space_single.tasks.all %}
-    <div>
-        <h6 class="task{{ task.status }}">{{ task.title }} ({{ task.get_status_display }})</h6>
-        <p class="task{{ task.status }}">{{ task.description }}</p>
-    </div><br>
+    <div class="row mx-0 border-bottom">
+        <div class="col-3">
+            <h6 class="task{{ task.status }}">{{ task.title }} ({{ task.get_status_display }})</h6>
+        </div>
+    </div>
     {% endfor %}
 </div>
 {% else %}
 <p>No tasks are available.</p>
 {% endif %}
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+<a href="#" data-toggle="modal" data-target="#exampleModal" style="position:absolute;bottom:5px;right:5px;margin:0;padding:5px 3px;"><i class="fas fa-plus-circle fa-3x"></i></a>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Task</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock %}

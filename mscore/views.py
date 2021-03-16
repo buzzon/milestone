@@ -4,6 +4,8 @@ from django.shortcuts import render
 
 from mscore.api.views import SpaceList, SpaceDetail
 from mscore.models import Space
+import calendar
+from datetime import datetime
 
 
 def index(request):
@@ -25,6 +27,11 @@ def space_detail(request, pk):
         space_single = SpaceDetail(request=request).get_queryset().get(id=pk)
     except Space.DoesNotExist:
         raise Http404("Space does not exist")
+
+    c = calendar.HTMLCalendar()
+    html_out = c.formatmonth(datetime.today().year, datetime.today().month)
+
     context = {'space_single': space_single,
-               'user': request.user}
+               'user': request.user,
+               'html_out': html_out}
     return render(request, 'mscore/space_detail.html', context)
