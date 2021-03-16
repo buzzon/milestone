@@ -1,6 +1,8 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404
 from django.shortcuts import render
+from django.views.generic import CreateView
 
 from mscore.api.views import SpaceList, SpaceDetail
 from mscore.models import Space
@@ -21,6 +23,18 @@ def space(request):
     return render(request, 'mscore/space_list.html', context)
 
 
+class SpaceCreate(CreateView):
+    model = Space
+    fields = '__all__'
+
+    def get_form_kwargs(self):
+        kwargs = super(SpaceCreate, self).get_form_kwargs()
+        if kwargs['instance'] is None:
+            kwargs['instance'] = Space()
+        kwargs['instance'].owner = self.request.user
+        return kwargs
+
+
 @login_required
 def space_detail(request, pk):
     try:
@@ -35,3 +49,4 @@ def space_detail(request, pk):
                'user': request.user,
                'html_out': html_out}
     return render(request, 'mscore/space_detail.html', context)
+

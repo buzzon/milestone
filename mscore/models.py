@@ -19,7 +19,15 @@ class Space(models.Model):
     def __str__(self):
         return self.title
 
+    def get_absolute_url(self):
+        from django.urls import reverse
+        return reverse('space-detail', args=[str(self.pk)])
 
+
+class RenewSpaceModelForm(ModelForm):
+    class Meta:
+        model = Space
+        fields = ['title']
 
 
 class Task(models.Model):
