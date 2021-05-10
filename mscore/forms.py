@@ -1,12 +1,7 @@
-from django import forms
 from django.core.exceptions import NON_FIELD_ERRORS
 from django.forms import ModelForm
 
 from mscore.models import Task
-
-
-class NameForm(forms.Form):
-    your_name = forms.CharField(label='Your name', max_length=100)
 
 
 class TaskForm(ModelForm):

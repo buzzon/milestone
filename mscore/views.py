@@ -8,7 +8,7 @@ from django.urls import reverse
 from django.views.generic import CreateView
 
 from mscore.api.views import SpaceList, SpaceDetail
-from mscore.forms import NameForm, TaskForm
+from mscore.forms import TaskForm
 from mscore.models import Space, Task
 
 
