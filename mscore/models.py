@@ -43,19 +43,13 @@ class Task(models.Model):
     title = models.CharField(blank=True, max_length=255)
     description = models.TextField(blank=True)
     status = models.CharField(max_length=1, choices=STATUS, default='A')
-    publish_date = models.DateTimeField(auto_now_add=True)
+    publish_date = models.DateTimeField(auto_now_add=True, editable=False)
 
     class Meta:
         ordering = ['status']
 
     def __str__(self):
         return self.title
-
-    # ОБЯЗАТЕЛЬНО УБРАТЬ ЭТОТ БРЕД ПОСЛЕ ПОДКЛЮЧЕНИЯ AJAX
-    @staticmethod
-    def get_absolute_url():
-        from django.urls import reverse
-        return reverse('space-list')
 
 
 class Component(models.Model):

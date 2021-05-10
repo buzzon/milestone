@@ -23,6 +23,6 @@
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 
-<a href="{% url 'task-create' %}" style="position:absolute;bottom:5px;right:5px;margin:0;padding:5px 3px;"><i class="fas fa-plus-circle fa-3x"></i></a>
+<a href="{% url 'space_task_create' pk=space_single.id %}" style="position:absolute;bottom:5px;right:5px;margin:0;padding:5px 3px;"><i class="fas fa-plus-circle fa-3x"></i></a>
 
 {% endblock %}
