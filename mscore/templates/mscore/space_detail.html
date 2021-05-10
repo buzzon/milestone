@@ -12,7 +12,9 @@
     {% for task in space_single.tasks.all %}
     <div class="row mx-0 border-bottom">
         <div class="col-3">
-            <h6 class="task{{ task.status }}">{{ task.title }} ({{ task.get_status_display }})</h6>
+            <a href="{% url 'task_update' space_pk=space_single.id task_pk=task.id %}">
+                <h6 class="task{{ task.status }}">{{ task.title }} ({{ task.get_status_display }})</h6>
+            </a>
         </div>
     </div>
     {% endfor %}

@@ -68,3 +68,18 @@ def task_create(request, pk):
     else:
         form = TaskForm()
     return render(request, 'mscore/form/base.html', {'form': form})
+
+
+def task_update(request, space_pk, task_pk):
+    try:
+        task = Task.objects.get(pk=task_pk)
+    except Space.DoesNotExist:
+        raise Http404("Task does not exist")
+
+    if request.method == 'POST':
+        form = TaskForm(request.POST, instance=task)
+        task = form.save()
+        return HttpResponseRedirect(reverse('space-detail', args=(space_pk,)))
+    else:
+        form = TaskForm(instance=task)
+    return render(request, 'mscore/form/base.html', {'form': form})

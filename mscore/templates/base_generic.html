@@ -29,7 +29,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#{{ user.id }}">{{ user.username }}</a>
                 </li>
-                {% url 'space-list' as url %}
+                {% url 'space_list' as url %}
                 <li class="nav-item {% if request.path == url %}active{% endif %}">
                     <a class="nav-link" href="{{ url }}">Spaces</a>
                 </li>
