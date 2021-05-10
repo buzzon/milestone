@@ -3,16 +3,16 @@
 {% block content %}
 
 
-{% if space_single.tasks.all %}
+{% if space.tasks.all %}
 <div class="gantt">
     <div class="row mx-0 border-bottom">
-        <div class="col-3"><h5>{{ space_single.title }}</h5></div>
+        <div class="col-3"><h5>{{ space.title }}</h5></div>
         <div class="col">date</div>
     </div>
-    {% for task in space_single.tasks.all %}
+    {% for task in space.tasks.all %}
     <div class="row mx-0 border-bottom">
         <div class="col-3">
-            <a href="{% url 'task_update' space_pk=space_single.id task_pk=task.id %}">
+            <a href="{% url 'task_update' space_pk=space.id task_pk=task.id %}">
                 <h6 class="task{{ task.status }}">{{ task.title }} ({{ task.get_status_display }})</h6>
             </a>
         </div>
@@ -25,6 +25,6 @@
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 
-<a href="{% url 'space_task_create' pk=space_single.id %}" style="position:absolute;bottom:5px;right:5px;margin:0;padding:5px 3px;"><i class="fas fa-plus-circle fa-3x"></i></a>
+<a href="{% url 'task_create' pk=space.id %}" style="position:absolute;bottom:5px;right:5px;margin:0;padding:5px 3px;"><i class="fas fa-plus-circle fa-3x"></i></a>
 
 {% endblock %}

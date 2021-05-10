@@ -44,12 +44,7 @@ def space_detail(request, pk):
     except Space.DoesNotExist:
         raise Http404("Space does not exist")
 
-    c = calendar.HTMLCalendar()
-    html_out = c.formatmonth(datetime.today().year, datetime.today().month)
-
-    context = {'space_single': space_single,
-               'user': request.user,
-               'html_out': html_out}
+    context = {'space': space_single}
     return render(request, 'mscore/space_detail.html', context)
 
 
@@ -64,13 +59,13 @@ def task_create(request, pk):
         task = form.save(commit=False)
         task.space = space_single
         task.save()
-        return HttpResponseRedirect(reverse('space-detail', args=(pk,)))
+        return HttpResponseRedirect(reverse('space_detail', args=(pk,)))
     else:
         form = TaskForm()
     return render(request, 'mscore/form/base.html', {'form': form})
 
 
-def task_update(request, space_pk, task_pk):
+def task_change(request, space_pk, task_pk):
     try:
         task = Task.objects.get(pk=task_pk)
     except Space.DoesNotExist:
@@ -78,8 +73,8 @@ def task_update(request, space_pk, task_pk):
 
     if request.method == 'POST':
         form = TaskForm(request.POST, instance=task)
-        task = form.save()
-        return HttpResponseRedirect(reverse('space-detail', args=(space_pk,)))
+        form.save()
+        return HttpResponseRedirect(reverse('space_detail', args=(space_pk,)))
     else:
         form = TaskForm(instance=task)
     return render(request, 'mscore/form/base.html', {'form': form})
