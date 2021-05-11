@@ -30,3 +30,12 @@ class SpaceDetail(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return Space.objects.filter(owner=self.request.user)
+
+
+class TaskList(generics.ListAPIView):
+    serializer_class = TaskSerializer
+    model = Task
+    # queryset = Task.objects.all()
+
+    def get_queryset(self):
+        return Task.objects.filter(space=self.request.GET['space'])

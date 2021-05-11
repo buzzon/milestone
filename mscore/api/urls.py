@@ -6,4 +6,5 @@ urlpatterns = [
     path('', api_root, name='root-api'),
     path('space/', views.SpaceList.as_view(), name='space-list-api'),
     path('space/<int:pk>/change/', views.SpaceDetail.as_view(), name='space-detail-api'),
+    path('task/', views.TaskList.as_view(), name='task_list_api'),
 ]

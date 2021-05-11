@@ -5,6 +5,9 @@ html,body {
 /*
  * Task
  */
+.task{
+border: 2px solid;
+}
 .taskA{
 color:#17a2b8;
 }
@@ -19,4 +22,48 @@ color:#28a745;
 }
 .taskC{
 color:#ffc107;
+}
+
+#gantt {
+  width: 100%;
+  height: 94%;
+  overflow-x: scroll;
+  /* overflow: hidden;  Hide scrollbars */
+}
+
+#main {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
+
+
+#main #content {
+  flex: 1 1 auto;
+}
+
+.row{
+    margin: 0px;
+}
+
+.box {
+  height: 40px;
+  border: solid;
+  display: inline-block;
+}
+
+#monitor{
+  position: fixed;
+  left: 20px;
+  bottom: 30px;
+  color: #09f;
+  z-index: 333;
+}
+
+#layer {
+    overflow-x: scroll;
+    flex: 1 1 auto;
+    width: 100%;
+    border: solid 1px black;
+    white-space: nowrap;
 }

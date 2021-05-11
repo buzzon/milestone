@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 from django.contrib.auth.models import User
 from django.db import models
 from django.forms import ModelForm
@@ -44,6 +46,8 @@ class Task(models.Model):
     description = models.TextField(blank=True)
     status = models.CharField(max_length=1, choices=STATUS, default='A')
     publish_date = models.DateTimeField(auto_now_add=True, editable=False)
+    initial_date = models.DateTimeField(default=datetime.now, blank=True)
+    deadline = models.DateTimeField(default=datetime.now() + timedelta(days=1), blank=True)
 
     class Meta:
         ordering = ['status']

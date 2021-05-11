@@ -1,6 +1,3 @@
-import calendar
-from datetime import datetime
-
 from django.contrib.auth.decorators import login_required
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render
@@ -10,6 +7,7 @@ from django.views.generic import CreateView
 from mscore.api.views import SpaceList, SpaceDetail
 from mscore.forms import TaskForm
 from mscore.models import Space, Task
+from mscore.utilities.date_list import get_time_list
 
 
 def index(request):
@@ -44,7 +42,9 @@ def space_detail(request, pk):
     except Space.DoesNotExist:
         raise Http404("Space does not exist")
 
-    context = {'space': space_single}
+    date_list = get_time_list(4, 16)
+
+    context = {'space': space_single, 'date_list': date_list}
     return render(request, 'mscore/space_detail.html', context)
 
 

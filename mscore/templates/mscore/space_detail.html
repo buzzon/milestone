@@ -1,30 +1,45 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
+{% load static %}
 
+{# space_id.html #}
+<script>
+    var space_id = {{ space.id }};
+    var taskChangeUrl = "{% url 'task_update' space_pk=space.id task_pk=0 %}";
 
-{% if space.tasks.all %}
-<div class="gantt">
-    <div class="row mx-0 border-bottom">
-        <div class="col-3"><h5>{{ space.title }}</h5></div>
-        <div class="col">date</div>
-    </div>
-    {% for task in space.tasks.all %}
-    <div class="row mx-0 border-bottom">
-        <div class="col-3">
-            <a href="{% url 'task_update' space_pk=space.id task_pk=task.id %}">
-                <h6 class="task{{ task.status }}">{{ task.title }} ({{ task.get_status_display }})</h6>
-            </a>
-        </div>
-    </div>
-    {% endfor %}
+</script>
+
+<div id="monitor"></div>
+<div id="layer">
 </div>
-{% else %}
-<p>No tasks are available.</p>
-{% endif %}
 
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 
-<a href="{% url 'task_create' pk=space.id %}" style="position:absolute;bottom:5px;right:5px;margin:0;padding:5px 3px;"><i class="fas fa-plus-circle fa-3x"></i></a>
+<script src="{% static 'mscore/js/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'mscore/js/space.js' %}"></script>
+
+
+
+
+<!--<div id="gantt">-->
+<!--    <div class="row flex-nowrap">-->
+<!--        {% for date in date_list %}-->
+<!--        <div class="{{ date.second }} border">-->
+<!--            <p class="text-center">{{ date.first }}</p>-->
+<!--        </div>-->
+<!--        {% endfor %}-->
+<!--    </div>-->
+<!--    {% if space.tasks.all %}-->
+<!--    {% else %}-->
+<!--    <p>No tasks are available.</p>-->
+<!--    {% endif %}-->
+<!--</div>-->
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+      integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+<a href="{% url 'task_create' pk=space.id %}"
+   style="position:absolute;bottom:5px;right:5px;margin:0;padding:5px 3px;"><i class="fas fa-plus-circle fa-3x"></i></a>
 
 {% endblock %}
