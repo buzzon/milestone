@@ -3,18 +3,38 @@ let col_count = 8,
     col_size = document.body.clientWidth / col_count;
 
 var loading = false;
+var last_date = new Date();
+var first_date = new Date();
+first_date.setDate(first_date.getDate() - 1);
+var day_count_before = 0;
+
+function formatDate(date) {
+
+  var dd = date.getDate();
+  if (dd < 10) dd = '0' + dd;
+
+  var mm = date.getMonth() + 1;
+  if (mm < 10) mm = '0' + mm;
+
+  return dd + '.' + mm;
+}
 
 function AddBoxesRight(){
     for(i = 0; i < col_quantity_add; i++){
-        $('#layer').append('<div class="box">' + i + '</div>');
+        $('#layer').append('<div class="box">' + formatDate(last_date) + '</div>');
+        last_date.setDate(last_date.getDate() + 1);
     }
     loading = false;
 }
 
+
+
 function AddBoxesLeft(){
     for(i=0; i < col_quantity_add; i++){
-        $('#layer div:first-child').before('<div class="box">before' + i + '</div>');
+        $('#layer div:first-child').before('<div class="box">' + formatDate(first_date) + '</div>');
+        first_date.setDate(first_date.getDate() - 1);
     }
+    day_count_before = day_count_before + col_quantity_add;
     loading = false;
 }
 
@@ -29,7 +49,7 @@ AddBoxesRight();
 AddBoxesLeft();
 UpdateClassWidth(".box", col_size);
 
-$('#layer').scrollLeft(col_size * (col_quantity_add + 1));
+$('#layer').scrollLeft(col_size * (col_quantity_add - 1));
 
 $('#layer').on('scroll',function(e){
     var $firstDiv = $('.box').first();

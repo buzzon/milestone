@@ -47,6 +47,7 @@ color:#ffc107;
 }
 
 .box {
+    text-align: center;
   height: 40px;
   border: solid;
   display: inline-block;
