@@ -32,6 +32,10 @@ class RenewSpaceModelForm(ModelForm):
         fields = ['title']
 
 
+def tomorrow():
+    return datetime.now() + timedelta(days=1)
+
+
 class Task(models.Model):
     STATUS = [
         ('A', 'Approval'),
@@ -47,7 +51,7 @@ class Task(models.Model):
     status = models.CharField(max_length=1, choices=STATUS, default='A')
     publish_date = models.DateTimeField(auto_now_add=True, editable=False)
     initial_date = models.DateTimeField(default=datetime.now, blank=True)
-    deadline = models.DateTimeField(default=datetime.now() + timedelta(days=1), blank=True)
+    deadline = models.DateTimeField(default=tomorrow, blank=True)
 
     class Meta:
         ordering = ['status']

@@ -5,12 +5,11 @@
 
 {# space_id.html #}
 <script>
-    var space_id = {{ space.id }};
+    var space_id = "{{ space.id }}";
     var taskChangeUrl = "{% url 'task_update' space_pk=space.id task_pk=0 %}";
 
 </script>
 
-<div id="monitor"></div>
 <div id="layer">
 </div>
 
@@ -19,21 +18,19 @@
 <script src="{% static 'mscore/js/space.js' %}"></script>
 
 
-
-
-<!--<div id="gantt">-->
-<!--    <div class="row flex-nowrap">-->
-<!--        {% for date in date_list %}-->
-<!--        <div class="{{ date.second }} border">-->
-<!--            <p class="text-center">{{ date.first }}</p>-->
-<!--        </div>-->
-<!--        {% endfor %}-->
-<!--    </div>-->
-<!--    {% if space.tasks.all %}-->
-<!--    {% else %}-->
-<!--    <p>No tasks are available.</p>-->
-<!--    {% endif %}-->
-<!--</div>-->
+<!-- <div id="gantt">
+    <div class="row flex-nowrap">
+        {% for date in date_list %}
+        <div class="{{ date.second }} border">
+            <p class="text-center">{{ date.first }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    {% if space.tasks.all %}
+    {% else %}
+    <p>No tasks are available.</p>
+    {% endif %}
+</div> -->
 
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"

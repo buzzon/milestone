@@ -1,45 +1,61 @@
-let col_size = document.body.clientWidth / 8;
+let col_count = 8,
+    col_quantity_add = 10,
+    col_size = document.body.clientWidth / col_count;
 
+var loading = false;
 
-var n = 0, loading = false, lastDiv;
-
-function addboxes(){
-    let length = 10;
-    for( i=0; i < length; i++){
-        $('#layer').append('<div class="box" style="left:'+(n+i*col_size)+'px;">' + i + '</div>');
+function AddBoxesRight(){
+    for(i = 0; i < col_quantity_add; i++){
+        $('#layer').append('<div class="box">' + i + '</div>');
     }
-	n+=length*col_size;
-
-	UpdateClassWidth(".box", col_size);
     loading = false;
 }
 
-addboxes();
-
- $('#layer').on('scroll',function(e){
-	var lastDiv = $('.box').last();
-	var lastLeft = lastDiv[0].getBoundingClientRect().left;
-  var windowWidth = $(window).width();
-
-	$("#monitor").text(" lastLeft ="+lastLeft+", windowWidth ="+windowWidth);
-
-	if( lastLeft < windowWidth && !loading ){
-  	loading = true;
-		addboxes();
-    $(window).trigger('resize');
-  }
-
-});
-
+function AddBoxesLeft(){
+    for(i=0; i < col_quantity_add; i++){
+        $('#layer div:first-child').before('<div class="box">before' + i + '</div>');
+    }
+    loading = false;
+}
 
 function UpdateClassWidth(c, width){
-	var elements = document.querySelectorAll(c);
+    var elements = document.querySelectorAll(c);
     for(var i=0; i<elements.length; i++){
         elements[i].style.width = width + "px";
     }
 }
 
+AddBoxesRight();
+AddBoxesLeft();
+UpdateClassWidth(".box", col_size);
 
+$('#layer').scrollLeft(col_size * (col_quantity_add + 1));
+
+$('#layer').on('scroll',function(e){
+    var $firstDiv = $('.box').first();
+    var $lastDiv = $('.box').last();
+
+    var firstBound = $firstDiv[0].getBoundingClientRect().left;
+    var lastBound = $lastDiv[0].getBoundingClientRect().left;
+
+    var windowWidth = $(window).width();
+
+    if (!loading) {
+        if(lastBound < windowWidth){
+            loading = true;
+            AddBoxesRight();
+            UpdateClassWidth(".box", col_size);
+            $(window).trigger('resize');
+        }
+        if( -firstBound < windowWidth){
+            loading = true;
+            $('#layer').scrollLeft(col_size * -20);
+            AddBoxesLeft();
+            UpdateClassWidth(".box", col_size);
+            $(window).trigger('resize');
+        }
+    }
+});
 
 $.ajax({
 	url: '/api/mscore/task',
@@ -54,7 +70,6 @@ $.ajax({
         alert('Got an error dude');
     }
 });
-
 
 function postTasks(data){
     data.forEach(element => ganttAppend(element));
