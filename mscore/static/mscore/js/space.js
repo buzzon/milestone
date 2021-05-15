@@ -9,14 +9,15 @@ first_date.setDate(first_date.getDate() - 1);
 var day_count_before = 0;
 
 function formatDate(date) {
-
+  var days = ["Вc", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
   var dd = date.getDate();
   if (dd < 10) dd = '0' + dd;
 
   var mm = date.getMonth() + 1;
   if (mm < 10) mm = '0' + mm;
 
-  return dd + '.' + mm;
+  var day = date.getDay();
+  return dd + '.' + mm + ', ' + days[day];
 }
 
 function AddBoxesRight(){
