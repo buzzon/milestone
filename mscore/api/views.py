@@ -45,9 +45,11 @@ class TaskList(generics.ListAPIView):
         return Task.objects.filter(space=self.request.GET['space'])
 
 
-# @api_view(['GET'])
-# @permission_classes([IsAuthenticated])
-# def get_TimePeriod(request):
-#     if request.method == 'POST':
-#         user = request.user
-#         user.delete()
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_task_time_period(request):
+    if request.method == 'GET':
+        # tasks = Task.objects.filter(space=request.GET['space']).filter(initial_date__range=["2021-04-01", "2021-06-01"])
+        tasks = Task.objects.filter(space=request.GET['space']).filter(initial_date__range=["2021-05-01", "2021-06-01"])
+        return Response({'tasks': TaskSerializer(tasks, many=True).data})
+

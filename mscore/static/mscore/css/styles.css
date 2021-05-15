@@ -61,7 +61,7 @@ color:#ffc107;
   z-index: 333;
 }
 
-#layer {
+#gantt {
     overflow-x: scroll;
     flex: 1 1 auto;
     width: 100%;
