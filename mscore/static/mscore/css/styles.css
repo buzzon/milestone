@@ -78,3 +78,34 @@ color:#ffc107;
      bottom: 20px;
      right: 20px;
 }
+
+.alert {
+    color:red
+}
+
+.form-group {
+    margin: 10px 0;
+}
+
+.form-group input {
+    border:1px solid #ccc;
+    border-radius:5px;
+    height:25px;
+    width:200px;
+    margin: 0 10px 10px 0;
+}
+
+.form-group textarea {
+    border:1px solid #ccc;
+    border-radius:5px;
+    width:400px;
+    margin: 0 10px 10px 0;
+}
+
+.form-group select {
+    border:1px solid #ccc;
+    border-radius:5px;
+    height:25px;
+    width:200px;
+    margin: 0 10px 10px 0;
+}

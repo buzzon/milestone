@@ -7,7 +7,10 @@
     <div class="card no-gutters position-relative mt-3">
         <div class="card-body">
             <h5 class="card-title">{{ space.title }}</h5>
-            <a href="{% url 'space_detail' space.id %}" class="stretched-link">Go somewhere</a>
+            <div>
+                <a href="{% url 'space_detail' space.id %}" class="stretched-link">Go somewhere</a>
+                <a style="float: right;" href="{% url 'space_edit' space.id %}" class="stretched-link">Edit</a>
+            </div>
         </div>
     </div>
     {% endfor %}

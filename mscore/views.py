@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.views.generic import CreateView
 
 from mscore.api.views import SpaceList, SpaceDetail
-from mscore.forms import TaskForm, UserForm
+from mscore.forms import TaskForm, UserForm, SpaceForm
 from mscore.models import Space, Task
 from mscore.utilities.date_list import get_time_list
 
@@ -78,6 +78,20 @@ def task_change(request, space_pk, task_pk):
         return HttpResponseRedirect(reverse('space_detail', args=(space_pk,)))
     else:
         form = TaskForm(instance=task)
+    return render(request, 'mscore/form/base.html', {'form': form})
+
+
+def space_edit(request, pk):
+    try:
+        space_single = Space.objects.get(pk=pk)
+    except Space.DoesNotExist:
+        raise Http404("Space does not exist")
+
+    if request.method == 'POST':
+        form = SpaceForm(request.POST, instance=space_single)
+        form.save()
+    else:
+        form = SpaceForm(instance=space_single)
     return render(request, 'mscore/form/base.html', {'form': form})
 
 

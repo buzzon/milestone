@@ -1,11 +1,11 @@
 from django.contrib.auth.models import User
 from django.core.exceptions import NON_FIELD_ERRORS
-from django.forms import ModelForm
+from django import forms
 
-from mscore.models import Task
+from mscore.models import Task, Space
 
 
-class TaskForm(ModelForm):
+class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
         exclude = ['space']
@@ -16,7 +16,20 @@ class TaskForm(ModelForm):
         }
 
 
-class UserForm(ModelForm):
+class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'email']
+
+
+class SpaceForm(forms.ModelForm):
+    class Meta:
+        model = Space
+        # exclude = ['tasks']
+        fields = ['title', 'members']
+
+    members = forms.ModelMultipleChoiceField(
+        required=False,
+        queryset=User.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+    )

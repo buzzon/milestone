@@ -14,9 +14,10 @@ class Profile(models.Model):
 
 
 class Space(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, editable=False)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, editable=False, related_name='owned_spaces')
     title = models.CharField(blank=True, max_length=255)
     publish_date = models.DateTimeField(auto_now_add=True)
+    members = models.ManyToManyField(User, related_name='spaces')
 
     def __str__(self):
         return self.title
