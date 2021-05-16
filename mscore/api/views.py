@@ -1,3 +1,4 @@
+from django.db.models import Q
 from rest_framework import generics
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -24,7 +25,7 @@ class SpaceList(generics.ListCreateAPIView):
         serializer.save(owner=self.request.user)
 
     def get_queryset(self):
-        return Space.objects.filter(owner=self.request.user)
+        return Space.objects.filter(Q(owner=self.request.user) | Q(members=self.request.user))
 
 
 @permission_classes([IsAuthenticated])
@@ -33,7 +34,7 @@ class SpaceDetail(generics.RetrieveUpdateDestroyAPIView):
     model = Space
 
     def get_queryset(self):
-        return Space.objects.filter(owner=self.request.user)
+        return Space.objects.filter(Q(owner=self.request.user) | Q(members=self.request.user))
 
 
 @permission_classes([IsAuthenticated])

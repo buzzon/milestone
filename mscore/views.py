@@ -24,16 +24,16 @@ def space(request):
     return render(request, 'mscore/space_list.html', context)
 
 
-class SpaceCreate(CreateView):
-    model = Space
-    fields = '__all__'
-
-    def get_form_kwargs(self):
-        kwargs = super(SpaceCreate, self).get_form_kwargs()
-        if kwargs['instance'] is None:
-            kwargs['instance'] = Space()
-        kwargs['instance'].owner = self.request.user
-        return kwargs
+@login_required
+def space_create(request):
+    if request.method == 'POST':
+        form = SpaceForm(request.POST)
+        space_single = form.save(commit=False)
+        space_single.owner = request.user
+        space_single.save()
+    else:
+        form = SpaceForm()
+    return render(request, 'mscore/form/base.html', {'form': form})
 
 
 @login_required

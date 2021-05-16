@@ -17,14 +17,14 @@ class Space(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, editable=False, related_name='owned_spaces')
     title = models.CharField(blank=True, max_length=255)
     publish_date = models.DateTimeField(auto_now_add=True)
-    members = models.ManyToManyField(User, related_name='spaces')
+    members = models.ManyToManyField(User, related_name='spaces', blank=True)
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
         from django.urls import reverse
-        return reverse('space-detail', args=[str(self.pk)])
+        return reverse('space_detail', args=[str(self.pk)])
 
 
 class RenewSpaceModelForm(ModelForm):

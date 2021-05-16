@@ -7,6 +7,14 @@
     <div class="card no-gutters position-relative mt-3">
         <div class="card-body">
             <h5 class="card-title">{{ space.title }}</h5>
+            <p class="card-text">Owner: {{ space.owner }}</p>
+            {% if space.members.count > 0 %}
+                <p class="card-text">Members:
+                {% for member in space.members.all %}
+                    {{ member }}
+                {% endfor %}
+                </p>
+            {% endif %}
             <div>
                 <a href="{% url 'space_detail' space.id %}" class="stretched-link">Go somewhere</a>
                 <a style="float: right;" href="{% url 'space_edit' space.id %}" class="stretched-link">Edit</a>
