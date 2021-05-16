@@ -149,6 +149,6 @@ function ganttAppend(element){
 
     var $div = $('<div class="task_container">').width(time_width).css( { marginLeft : pre_indent + "px" } );
     var $link = $().add("<a>").attr("href", taskChangeUrl.replace('0', element.id));
-    var $title = $().add("<p>" + element.title + "</p>").width(time_width).addClass("task").addClass("task" + element.status);
+    var $title = $().add("<p>" + element.title + "</p>").width(time_width).addClass("task").addClass("task" + element.status).addClass("noselect");
     $tasks.append($div.append($link.append($title)));
 }
