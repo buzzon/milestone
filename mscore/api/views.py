@@ -25,7 +25,9 @@ class SpaceList(generics.ListCreateAPIView):
         serializer.save(owner=self.request.user)
 
     def get_queryset(self):
-        return Space.objects.filter(Q(owner=self.request.user) | Q(members=self.request.user))
+        owned_spaces = Space.objects.filter(owner=self.request.user)
+        membered_spaces = Space.objects.filter(members=self.request.user)
+        return (membered_spaces | owned_spaces).distinct()
 
 
 @permission_classes([IsAuthenticated])
@@ -34,7 +36,9 @@ class SpaceDetail(generics.RetrieveUpdateDestroyAPIView):
     model = Space
 
     def get_queryset(self):
-        return Space.objects.filter(Q(owner=self.request.user) | Q(members=self.request.user))
+        owned_spaces = Space.objects.filter(owner=self.request.user)
+        membered_spaces = Space.objects.filter(members=self.request.user)
+        return (membered_spaces | owned_spaces).distinct()
 
 
 @permission_classes([IsAuthenticated])
