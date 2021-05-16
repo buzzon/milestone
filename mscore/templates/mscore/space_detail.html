@@ -19,24 +19,9 @@
 <script src="{% static 'mscore/js/space.js' %}"></script>
 
 
-<!-- <div id="gantt">
-    <div class="row flex-nowrap">
-        {% for date in date_list %}
-        <div class="{{ date.second }} border">
-            <p class="text-center">{{ date.first }}</p>
-        </div>
-        {% endfor %}
-    </div>
-    {% if space.tasks.all %}
-    {% else %}
-    <p>No tasks are available.</p>
-    {% endif %}
-</div> -->
-
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
       integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 
-<a href="{% url 'task_create' pk=space.id %}"
-   style="position:absolute;bottom:5px;right:5px;margin:0;padding:5px 3px;"><i class="fas fa-plus-circle fa-3x"></i></a>
+<a id="add_task" href="{% url 'task_create' pk=space.id %}"><i class="fas fa-plus-circle fa-3x"></i></a>
 
 {% endblock %}

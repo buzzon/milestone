@@ -6,7 +6,6 @@ var loading = false;
 var last_date = new Date();
 var first_date = new Date();
 first_date.setDate(first_date.getDate() - 1);
-var day_count_before = 0;
 
 function formatDate(date) {
   var days = ["Вc", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
@@ -35,11 +34,18 @@ function AddBoxesLeft(){
         $('#timeline div:first-child').before('<div class="box">' + formatDate(first_date) + '</div>');
         first_date.setDate(first_date.getDate() - 1);
     }
-    day_count_before += 1;
     UpdateClassWidth(".box", col_size);
+    UpdateClassPreIndent(".task_container");
     $gantt = $('#gantt');
     $gantt.scrollLeft($gantt.scrollLeft() + col_size * col_quantity_add);
     loading = false;
+}
+
+function UpdateClassPreIndent(c){
+    var elements = document.querySelectorAll(c);
+    for(var i=0; i<elements.length; i++){
+        elements[i].style.marginLeft = parseInt(elements[i].style.marginLeft) + col_size * col_quantity_add + "px";
+    }
 }
 
 function UpdateClassWidth(c, width){
@@ -58,31 +64,26 @@ var mouse_controller = {
     scrollLeft: 0,
     x: 0,
     'down_event': function(elem, e) {
-        console.log('mouse_controller: down');
         this.down = true;
         this.scrollLeft = elem.scrollLeft;
         this.x = e.clientX;
     },
     'down_last_pos': function(elem) {
-        console.log('mouse_controller: down_last_pos');
         this.down = true;
         this.scrollLeft = elem.scrollLeft;
         this.x = pos_x;
     },
     'up_event': function() {
-        console.log('mouse_controller: mouseup');
         this.down = false;
     },
     'move_event': function(elem, e) {
         pos_x = e.clientX;
         if (this.down){
-            console.log('mouse_controller: move_event');
             elem.scrollLeft = this.scrollLeft + this.x - e.clientX;
         }
     }
 }
 var down=false, scrollLeft=0, x = 0;
-
 
 $('#gantt').on('mousemove',function(e){
     mouse_controller.move_event(this, e);
@@ -125,23 +126,29 @@ $.ajax({
 	dataType: 'json',
     data: {space: space_id},
 	success: function(data){
-		console.log(data);
-//		data.forEach(element => ganttAppend(element));
-//		data.tasks.forEach(element => $('#tasks').append("<div>" + element.title + "<div/>"));
-
+        data.tasks.forEach(element => ganttAppend(element));
 	},
 	failure: function(data) {
         alert('Got an error dude');
     }
 });
 
+//$(window).resize(function() {
+//    console.log("resize");
+//    col_size = document.body.clientWidth / col_count
+//    UpdateClassWidth(".box", col_size);
+//});
+
 
 
 function ganttAppend(element){
-    var $gantt = $('#gantt');
-    var timeWidth = Math.abs(Date.parse(element.deadline) - Date.parse(element.initial_date)) / 1000 / 60 / 60 / 24 * col_size;
-    var $div = $("<div></div>").width(timeWidth).css( { marginLeft : col_size - 15 + "px" } );
-    var $link = $().add("<a></a>").attr("href", taskChangeUrl.replace('0', element.id));
-    var $title = $().add("<p>" + element.title + "</p>").width(timeWidth).addClass("task").addClass("task" + element.status);
-    $gantt.append($div.append($link.append($title)));
+    var $tasks = $('#tasks');
+    var time_width = Math.abs(Date.parse(element.deadline) - Date.parse(element.initial_date)) / 1000 / 60 / 60 / 24 * col_size;
+    var initial_date = new Date(element.initial_date)
+    var pre_indent = Math.abs(initial_date.getUTCHours() / 24 + initial_date.getDate() - first_date.getDate() - 1) * col_size;
+
+    var $div = $('<div class="task_container">').width(time_width).css( { marginLeft : pre_indent + "px" } );
+    var $link = $().add("<a>").attr("href", taskChangeUrl.replace('0', element.id));
+    var $title = $().add("<p>" + element.title + "</p>").width(time_width).addClass("task").addClass("task" + element.status);
+    $tasks.append($div.append($link.append($title)));
 }
