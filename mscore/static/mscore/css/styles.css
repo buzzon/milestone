@@ -7,8 +7,10 @@ html,body {
  */
 
 .task{
-border: 2px solid;
+    border: 2px solid;
+    overflow: hidden;
 }
+
 .taskA{
 color:#17a2b8;
 }

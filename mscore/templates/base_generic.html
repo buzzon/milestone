@@ -28,7 +28,7 @@
                 </li>
                 {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href="#{{ user.id }}">{{ user.username }}</a>
+                    <a class="nav-link" href="{% url 'user_change' %}">{{ user.username }}</a>
                 </li>
                 {% url 'space_list' as url %}
                 <li class="nav-item {% if request.path == url %}active{% endif %}">

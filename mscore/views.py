@@ -1,11 +1,12 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import CreateView
 
 from mscore.api.views import SpaceList, SpaceDetail
-from mscore.forms import TaskForm
+from mscore.forms import TaskForm, UserForm
 from mscore.models import Space, Task
 from mscore.utilities.date_list import get_time_list
 
@@ -68,7 +69,7 @@ def task_create(request, pk):
 def task_change(request, space_pk, task_pk):
     try:
         task = Task.objects.get(pk=task_pk)
-    except Space.DoesNotExist:
+    except Task.DoesNotExist:
         raise Http404("Task does not exist")
 
     if request.method == 'POST':
@@ -77,4 +78,15 @@ def task_change(request, space_pk, task_pk):
         return HttpResponseRedirect(reverse('space_detail', args=(space_pk,)))
     else:
         form = TaskForm(instance=task)
+    return render(request, 'mscore/form/base.html', {'form': form})
+
+
+def user_change(request):
+    user = request.user
+
+    if request.method == 'POST':
+        form = UserForm(request.POST, instance=user)
+        form.save()
+    else:
+        form = UserForm(instance=user)
     return render(request, 'mscore/form/base.html', {'form': form})
