@@ -1,4 +1,3 @@
-from django.db.models import Q
 from rest_framework import generics
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -54,7 +53,6 @@ class TaskList(generics.ListAPIView):
 @permission_classes([IsAuthenticated])
 def get_task_time_period(request):
     if request.method == 'GET':
-        # tasks = Task.objects.filter(space=request.GET['space']).filter(initial_date__range=["2021-04-01", "2021-06-01"])
         tasks = Task.objects.filter(space=request.GET['space']).filter(initial_date__range=["2021-05-01", "2021-06-01"])
         return Response({'tasks': TaskSerializer(tasks, many=True).data})
 
