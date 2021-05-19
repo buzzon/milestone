@@ -90,6 +90,12 @@ color:#ffc107;
      right: 20px;
 }
 
+#task_filter{
+     position: fixed;
+     top: 120px;
+     right: 20px;
+}
+
 .alert {
     color:red
 }

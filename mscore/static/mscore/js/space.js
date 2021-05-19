@@ -118,6 +118,41 @@ $('#gantt').on('mousemove',function(e){
     }
 });
 
+$('#task_approval').on('change', function(){
+    if(this.checked)
+        $('.taskA').show();
+    else
+        $('.taskA').hide();
+})
+
+$('#task_waiting').on('change', function(){
+    if(this.checked)
+        $('.taskW').show();
+    else
+        $('.taskW').hide();
+})
+
+$('#task_progressing').on('change', function(){
+    if(this.checked)
+        $('.taskP').show();
+    else
+        $('.taskP').hide();
+})
+
+$('#task_ready').on('change', function(){
+    if(this.checked)
+        $('.taskR').show();
+    else
+        $('.taskR').hide();
+})
+
+$('#task_correction').on('change', function(){
+    if(this.checked)
+        $('.taskC').show();
+    else
+        $('.taskC').hide();
+})
+
 $("#gantt").trigger( "mouseup" );
 
 $.ajax({
