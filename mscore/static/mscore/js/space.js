@@ -180,7 +180,7 @@ function ganttAppend(element){
     var $tasks = $('#tasks');
     var time_width = Math.abs(Date.parse(element.deadline) - Date.parse(element.initial_date)) / 1000 / 60 / 60 / 24 * col_size;
     var initial_date = new Date(element.initial_date)
-    var pre_indent = Math.abs(initial_date.getUTCHours() / 24 + initial_date.getDate() - first_date.getDate() - 1) * col_size;
+    var pre_indent = (initial_date.getUTCHours() / 24 + initial_date.getDate() - first_date.getDate() - 1) * col_size;
 
     var $div = $('<div class="task_container">').width(time_width).css( { marginLeft : pre_indent + "px" } );
     var $link = $().add("<a>").attr("href", taskChangeUrl.replace('0', element.id));
