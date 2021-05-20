@@ -20,8 +20,8 @@
         <label style="color:#17a2b8;" class="form-check-label" for="task_approval">Approval</label>
     </div>
     <div class="form-check form-switch">
-        <input class="form-check-input" type="checkbox" id="task_waiting" checked>
-        <label style="color:#007bff;" class="form-check-label" for="task_waiting">Waiting</label>
+        <input class="form-check-input" type="checkbox" id="task_correction" checked>
+        <label style="color:#ffc107;" class="form-check-label" for="task_correction">Correction</label>
     </div>
     <div class="form-check form-switch">
         <input class="form-check-input" type="checkbox" id="task_progressing" checked>
@@ -32,8 +32,8 @@
         <label style="color:#28a745;" class="form-check-label" for="task_ready">Ready</label>
     </div>
     <div class="form-check form-switch">
-        <input class="form-check-input" type="checkbox" id="task_correction" checked>
-        <label style="color:#ffc107;" class="form-check-label" for="task_correction">Correction</label>
+        <input class="form-check-input" type="checkbox" id="task_waiting" checked>
+        <label style="color:#007bff;" class="form-check-label" for="task_waiting">Waiting</label>
     </div>
 </div>
 
@@ -46,5 +46,6 @@
       integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 
 <a id="add_task" href="{% url 'task_create' pk=space.id %}"><i class="fas fa-plus-circle fa-3x"></i></a>
+<a id="constructor_button" href="{% url 'space_constructor' pk=space.id %}"><img style="width: 48px; color:#007bff;" src="{% static 'data/constructor.svg' %}"></a>
 
 {% endblock %}

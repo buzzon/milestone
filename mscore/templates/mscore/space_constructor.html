@@ -1,0 +1,23 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+{% load static %}
+
+{# space_id.html #}
+<script>
+    var space_id = "{{ space.id }}";
+    var taskChangeUrl = "{% url 'task_update' space_pk=space.id task_pk=0 %}";
+</script>
+
+
+<div id="constructor">
+
+</div>
+
+<script src="{% static 'mscore/js/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'mscore/js/constructor.js' %}"></script>
+
+<a id="space_gantt" href="{% url 'space_detail' pk=space.id %}"><img style="width: 48px; color:#007bff;" src="{% static 'data/gantt-chart.svg' %}"></a>
+
+
+{% endblock %}

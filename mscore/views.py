@@ -43,10 +43,19 @@ def space_detail(request, pk):
     except Space.DoesNotExist:
         raise Http404("Space does not exist")
 
-    date_list = get_time_list(4, 16)
-
-    context = {'space': space_single, 'date_list': date_list}
+    context = {'space': space_single}
     return render(request, 'mscore/space_detail.html', context)
+
+
+@login_required
+def space_constructor(request, pk):
+    try:
+        space_single = SpaceDetail(request=request).get_queryset().get(id=pk)
+    except Space.DoesNotExist:
+        raise Http404("Space does not exist")
+
+    context = {'space': space_single }
+    return render(request, 'mscore/space_constructor.html', context)
 
 
 def task_create(request, pk):
