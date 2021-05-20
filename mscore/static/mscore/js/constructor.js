@@ -1,7 +1,3 @@
-var col_size = [];
-var count_block = [];
-var active_level = 0;
-
 var last_id = 0;
 var boxes = {};
 
@@ -26,13 +22,11 @@ $.ajax({
     }
 });
 
-function boxPrepend(parent, element, level){
-    count_block[level]++;
-    var $div = $().add('<div class="constructor_task_container '+ "l_" + level +'">');
+function boxPrepend(parent, element){
+    var $div = $().add('<div class="constructor_task_container">');
     var $title = $().add("<input class='constructor_task_title' placeholder=" + element +  "></input>").addClass("noselect");
-    $title[0].level = level;
     parent.before($div.append($title));
-    boxAddAppend($div, level + 1);
+    boxAddAppend($div);
 
 
     setId(parent.parent());
@@ -43,11 +37,9 @@ function boxPrepend(parent, element, level){
     return $title;
 }
 
-function boxAddAppend(constructor, level){
-    count_block[level] = count_block[level] + 1 || 1;
-    var $div = $().add('<div class="constructor_task_container '+ "l_" + level +'">');
+function boxAddAppend(constructor){
+    var $div = $().add('<div class="constructor_task_container">');
     var $title = $().add("<p class='constructor_add_task_title' > + </p>").addClass("noselect");
-    $title[0].level = level;
     constructor.append($div.append($title));
 
 
@@ -59,7 +51,7 @@ function boxAddAppend(constructor, level){
 
 
 $(document).on('click', '.constructor_add_task_title', function () {
-    boxPrepend($(this).parent(), 'element', this.level).focus();
+    boxPrepend($(this).parent(), 'element').focus();
 });
 
 $(window).on('keydown',function(e){
@@ -70,7 +62,7 @@ $(window).on('keydown',function(e){
             break;
         case "Enter":
             var $focused = $(':focus');
-            boxPrepend($focused.parent(), 'element', $focused[0].level).focus();
+            boxPrepend($focused.parent(), 'element').focus();
             break;
         case "ArrowUp":
              console.log(e.code);
@@ -83,7 +75,6 @@ $(window).on('keydown',function(e){
             break;
         case "ArrowRight":
              console.log(e.code);
-             boxAddAppend($('#0'),0);
             break;
     }
 })
