@@ -1,14 +1,11 @@
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from django.views.generic import CreateView
 
 from mscore.api.views import SpaceList, SpaceDetail
-from mscore.forms import TaskForm, UserForm, SpaceForm
+from mscore.forms import TaskForm, UserForm, SpaceForm, UserRegistrationForm
 from mscore.models import Space, Task
-from mscore.utilities.date_list import get_time_list
 
 
 def index(request):
@@ -58,6 +55,7 @@ def space_constructor(request, pk):
     return render(request, 'mscore/space_constructor.html', context)
 
 
+@login_required
 def task_create(request, pk):
     try:
         space_single = SpaceDetail(request=request).get_queryset().get(id=pk)
@@ -75,6 +73,7 @@ def task_create(request, pk):
     return render(request, 'mscore/form/base.html', {'form': form})
 
 
+@login_required
 def task_change(request, space_pk, task_pk):
     try:
         task = Task.objects.get(pk=task_pk)
@@ -90,6 +89,7 @@ def task_change(request, space_pk, task_pk):
     return render(request, 'mscore/form/base.html', {'form': form})
 
 
+@login_required
 def space_edit(request, pk):
     try:
         space_single = Space.objects.get(pk=pk)
@@ -104,6 +104,7 @@ def space_edit(request, pk):
     return render(request, 'mscore/form/base.html', {'form': form})
 
 
+@login_required
 def user_change(request):
     user = request.user
 
@@ -113,3 +114,19 @@ def user_change(request):
     else:
         form = UserForm(instance=user)
     return render(request, 'mscore/form/base.html', {'form': form})
+
+
+def register(request):
+    if request.method == 'POST':
+        user_form = UserRegistrationForm(request.POST)
+        if user_form.is_valid():
+            # Create a new user object but avoid saving it yet
+            new_user = user_form.save(commit=False)
+            # Set the chosen password
+            new_user.set_password(user_form.cleaned_data['password'])
+            # Save the User object
+            new_user.save()
+            return render(request, 'registration/register_done.html', {'new_user': new_user})
+    else:
+        user_form = UserRegistrationForm()
+    return render(request, 'registration/register.html', {'user_form': user_form})
