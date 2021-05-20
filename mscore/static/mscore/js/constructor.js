@@ -8,8 +8,6 @@ $.ajax({
 	dataType: 'json',
     data: {space: space_id},
 	success: function(data){
-		count_block[0] = data.tasks.length;
-	    col_size[0] = document.body.clientWidth / count_block[0];
 //        data.tasks.forEach(element => boxPrepend(element, 0));
         boxAddAppend($('#constructor'),0);
 	},
