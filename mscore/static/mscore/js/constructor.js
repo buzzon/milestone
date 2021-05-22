@@ -1,5 +1,20 @@
-var selected_box;
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
 
+$("#0").width(document.body.clientWidth);
+$ajax =  $.ajax;
 
 $.ajax({
 	url: '/api/mscore/task/period/',
@@ -7,9 +22,8 @@ $.ajax({
 	dataType: 'json',
     data: {space: space_id},
 	success: function(data){
-//        data.tasks.forEach(element => boxPrepend(element, 0));
-//        boxAddAppend($('#0'),0);
-        addChildren($('#0'), Box());
+//        data.tasks.forEach(element => loadNode($('#0'), element));
+          loadNode2($('#0'), data);
 	},
 	failure: function(data) {
         alert('Got an error dude');
@@ -17,22 +31,61 @@ $.ajax({
 });
 
 function addChildren(parent, box){
-    selected_box = box;
     parent.append(box);
-    selected_box.children().first().focus();
-    resize();
 }
 
-function Box(){
+function loadNode(parent, element){
+    $box = Box(element);
+    parent.append($box);
+    $box.width(180);
+    element.task.forEach(children => {
+        $box.append(Box(children).width($box.width() / element.task.length));
+    })
+}
+
+function loadNode2(parent, elements){
+    if (elements.task == undefined) return;
+    elements.task.forEach(children => {
+        var box = Box(children).width(parent.width() / elements.task.length);
+        parent.append(box);
+        loadNode2(box, children);
+    })
+}
+
+function addRight(elem, box){
+    elem.append(box);
+}
+
+function Box(element){
     var $div = $().add('<div>').addClass("constructor_task_container");
     var $title = $().add("<input placeholder=element></input>").addClass("constructor_task_title").addClass("noselect");
+    $title.val(element.title);
+
+    $title.change(function() {
+        updateTask(element, this.value);
+    });
+
     return $div.append($title);
+}
+
+function updateTask(element, value){
+        $ajax({
+	        url: '/api/mscore/task/change/',
+	        method: 'post',
+	        dataType: 'json',
+            data: { csrfmiddlewaretoken: getCookie('csrftoken'), space: space_id, pk: element.id, title: value},
+        });
 }
 
 $(window).on('resize',function(e){ resize(); })
 
 function resize(){
-    selected_box.width(document.body.clientWidth);
+    $("#0").width(document.body.clientWidth);
+    var $div = $("#0");
+    $div_children = $div.children();
+    $div_children.each(function(){
+        $(this).width($div.width() / $div_children.length);
+    })
 }
 
 

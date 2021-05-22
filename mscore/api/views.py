@@ -1,6 +1,7 @@
 from rest_framework import generics
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, renderer_classes
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
@@ -48,7 +49,7 @@ class TaskList(generics.ListAPIView):
 
     def get_queryset(self):
         # return Task.objects.filter(space=self.request.GET['space'])
-        return Task.objects.all()
+        return Task.objects.filter(is_nested=False)
 
 
 @api_view(['GET'])
@@ -57,5 +58,14 @@ def get_task_time_period(request):
     if request.method == 'GET':
         # tasks = Task.objects.filter(space=request.GET['space']).filter(initial_date__range=["2021-05-01", "2021-06-01"])
         tasks = Task.objects.filter(space=request.GET['space']).filter(is_nested=False)
-        return Response({'tasks': TaskSerializer(tasks, many=True).data})
+        return Response({'task': TaskSerializer(tasks, many=True).data})
 
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def task_change(request):
+    if request.method == 'POST':
+        task = Task.objects.filter(space=request.POST['space']).get(pk=request.POST['pk'])
+        task.title = request.POST['title'];
+        task.save()
+        return Response({'task': TaskSerializer(task).data})

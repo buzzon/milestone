@@ -161,7 +161,7 @@ $.ajax({
 	dataType: 'json',
     data: {space: space_id},
 	success: function(data){
-        data.tasks.forEach(element => ganttAppend(element));
+        data.task.forEach(element => ganttAppend(element));
 	},
 	failure: function(data) {
         alert('Got an error dude');

@@ -17,17 +17,41 @@ class ComponentSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class TaskSerializer2(serializers.ModelSerializer):
+class SubTaskSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(required=False)
 
     class Meta:
         model = Task
-        fields = '__all__'
+        exclude = ['space', 'parent']
+
+    def __init__(self, *args, **kwargs):
+        fields = kwargs.pop("fields", None)
+        exclude = kwargs.pop("exclude", None)
+        nest = kwargs.pop("nest", None)
+
+        if nest is not None:
+            if nest:
+                self.Meta.depth = 1
+
+        super(SubTaskSerializer, self).__init__(*args, **kwargs)
+
+        if fields is not None:
+            allowed = set(fields)
+            existing = set(self.fields.keys())
+            for field_name in existing - allowed:
+                self.fields.pop(field_name)
+
+        if exclude is not None:
+            for field_name in exclude:
+                self.fields.pop(field_name)
+
+
+SubTaskSerializer._declared_fields['task'] = SubTaskSerializer(many=True, required=False)
 
 
 class TaskSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(required=False)
-    task = TaskSerializer2(many=True, required=False)
+    task = SubTaskSerializer(many=True, required=False, nest=True)
 
     class Meta:
         model = Task
