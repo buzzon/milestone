@@ -17,8 +17,17 @@ class ComponentSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class TaskSerializer2(serializers.ModelSerializer):
+    id = serializers.IntegerField(required=False)
+
+    class Meta:
+        model = Task
+        fields = '__all__'
+
+
 class TaskSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(required=False)
+    task = TaskSerializer2(many=True, required=False)
 
     class Meta:
         model = Task

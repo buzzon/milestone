@@ -74,6 +74,30 @@ def task_create(request, pk):
 
 
 @login_required
+def task_nested_create(request, space_pk, task_pk):
+    try:
+        space_single = SpaceDetail(request=request).get_queryset().get(id=space_pk)
+        task_single = space_single.tasks.get(pk=task_pk)
+    except Space.DoesNotExist:
+        raise Http404("Space does not exist")
+    except Task.DoesNotExist:
+        raise Http404("Task does not exist")
+
+    if request.method == 'POST':
+        form = TaskForm(request.POST)
+        task = form.save(commit=False)
+        task.space = space_single
+        task.parent = task_single
+        task.is_nested = True;
+        task.save()
+
+        return HttpResponseRedirect(reverse('space_detail', args=(space_pk,)))
+    else:
+        form = TaskForm()
+    return render(request, 'mscore/form/base.html', {'form': form})
+
+
+@login_required
 def task_change(request, space_pk, task_pk):
     try:
         task = Task.objects.get(pk=task_pk)

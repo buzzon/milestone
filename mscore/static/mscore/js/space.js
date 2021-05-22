@@ -159,7 +159,7 @@ $.ajax({
 	url: '/api/mscore/task/period/',
 	method: 'get',
 	dataType: 'json',
-    data: {space: space_id, first_date: first_date},
+    data: {space: space_id},
 	success: function(data){
         data.tasks.forEach(element => ganttAppend(element));
 	},

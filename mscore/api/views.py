@@ -12,6 +12,7 @@ from mscore.api.serializers import *
 def api_root(request, format=None):
     return Response({
         'spaces': reverse('space-list-api', request=request, format=format),
+        'tasks': reverse('task_list_api', request=request, format=format),
     })
 
 
@@ -46,13 +47,15 @@ class TaskList(generics.ListAPIView):
     model = Task
 
     def get_queryset(self):
-        return Task.objects.filter(space=self.request.GET['space'])
+        # return Task.objects.filter(space=self.request.GET['space'])
+        return Task.objects.all()
 
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_task_time_period(request):
     if request.method == 'GET':
-        tasks = Task.objects.filter(space=request.GET['space']).filter(initial_date__range=["2021-05-01", "2021-06-01"])
+        # tasks = Task.objects.filter(space=request.GET['space']).filter(initial_date__range=["2021-05-01", "2021-06-01"])
+        tasks = Task.objects.filter(space=request.GET['space']).filter(is_nested=False)
         return Response({'tasks': TaskSerializer(tasks, many=True).data})
 

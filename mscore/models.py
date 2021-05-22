@@ -40,6 +40,7 @@ class Task(models.Model):
         ('C', 'Correction')
     ]
 
+    parent = models.ForeignKey('Task', on_delete=models.CASCADE, related_name='task', null=True, blank=True)
     space = models.ForeignKey(Space, on_delete=models.CASCADE, related_name='tasks')
     title = models.CharField(blank=True, max_length=255)
     description = models.TextField(blank=True)
@@ -47,6 +48,7 @@ class Task(models.Model):
     publish_date = models.DateTimeField(auto_now_add=True, editable=False)
     initial_date = models.DateTimeField(default=datetime.now, blank=True)
     deadline = models.DateTimeField(default=tomorrow, blank=True)
+    is_nested = models.BooleanField(default=False);
 
     class Meta:
         ordering = ['-deadline', 'status']

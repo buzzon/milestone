@@ -10,6 +10,7 @@ urlpatterns = [
     path('space/<int:pk>/constructor/', views.space_constructor, name='space_constructor'),
     path('space/<int:pk>/edit/', views.space_edit, name='space_edit'),
     path('space/<int:pk>/task/create/', views.task_create, name='task_create'),
+    path('space/<int:space_pk>/task/<int:task_pk>/nested_create/', views.task_nested_create, name='task_create'),
     path('space/<int:space_pk>/task/<int:task_pk>/change/', views.task_change, name='task_update'),
     path('user/change/', views.user_change, name='user_change'),
 ]
