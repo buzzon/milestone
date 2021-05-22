@@ -32,9 +32,8 @@ function boxPrepend(parent, element){
     setId(parent.parent());
     boxes[parent.parent().attr('id')] = boxes[parent.parent().attr('id')] + 1 || 1;
 
+    $title.focus();
     resize();
-
-    return $title;
 }
 
 function boxAddAppend(constructor){
@@ -51,7 +50,7 @@ function boxAddAppend(constructor){
 
 
 $(document).on('click', '.constructor_add_task_title', function () {
-    boxPrepend($(this).parent(), 'element').focus();
+    boxPrepend($(this).parent(), 'element');
 });
 
 $(window).on('keydown',function(e){
@@ -62,7 +61,7 @@ $(window).on('keydown',function(e){
             break;
         case "Enter":
             var $focused = $(':focus');
-            boxPrepend($focused.parent(), 'element').focus();
+            boxPrepend($focused.parent(), 'element');
             break;
         case "ArrowUp":
              console.log(e.code);
@@ -85,7 +84,6 @@ function resize(){
     $("#0").width(document.body.clientWidth);
     for (var i = 0; i <= last_id; i++) {
         var $div = $("#"+i);
-        console.log($div.width());
         $div.find('div').each(function(){
             $(this).width($div.width() / boxes[i]);
         })

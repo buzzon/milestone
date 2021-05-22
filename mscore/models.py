@@ -27,12 +27,6 @@ class Space(models.Model):
         return reverse('space_detail', args=[str(self.pk)])
 
 
-class RenewSpaceModelForm(ModelForm):
-    class Meta:
-        model = Space
-        fields = ['title']
-
-
 def tomorrow():
     return datetime.now() + timedelta(days=1)
 
@@ -55,7 +49,7 @@ class Task(models.Model):
     deadline = models.DateTimeField(default=tomorrow, blank=True)
 
     class Meta:
-        ordering = ['status']
+        ordering = ['-deadline', 'status']
 
     def __str__(self):
         return self.title
