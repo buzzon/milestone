@@ -14,6 +14,7 @@ function getCookie(name) {
 }
 
 $("#0").width(document.body.clientWidth);
+
 $ajax =  $.ajax;
 
 $.ajax({
@@ -22,8 +23,8 @@ $.ajax({
 	dataType: 'json',
     data: {space: space_id},
 	success: function(data){
-//        data.tasks.forEach(element => loadNode($('#0'), element));
-          loadNode2($('#0'), data);
+            loadNode($('#0'), data);
+            resize();
 	},
 	failure: function(data) {
         alert('Got an error dude');
@@ -34,23 +35,40 @@ function addChildren(parent, box){
     parent.append(box);
 }
 
-function loadNode(parent, element){
-    $box = Box(element);
-    parent.append($box);
-    $box.width(180);
-    element.task.forEach(children => {
-        $box.append(Box(children).width($box.width() / element.task.length));
-    })
-}
 
-function loadNode2(parent, elements){
+function loadNode(parent, elements){
     if (elements.task == undefined) return;
     elements.task.forEach(children => {
         var box = Box(children).width(parent.width() / elements.task.length);
         parent.append(box);
-        loadNode2(box, children);
+        loadNode(box, children);
     })
 }
+
+$(window).on('keydown',function(e){
+    switch (e.code) {
+        case "Tab":
+            console.log(e.code);
+            e.preventDefault();
+            break;
+        case "Enter":
+            console.log(e.code);
+            break;
+        case "ArrowUp":
+             console.log(e.code);
+            break;
+        case "ArrowDown":
+             console.log(e.code);
+            break;
+        case "ArrowLeft":
+            resize();
+             console.log(e.code);
+            break;
+        case "ArrowRight":
+            console.log(e.code);
+            break;
+    }
+})
 
 function addRight(elem, box){
     elem.append(box);
@@ -82,10 +100,18 @@ $(window).on('resize',function(e){ resize(); })
 function resize(){
     $("#0").width(document.body.clientWidth);
     var $div = $("#0");
-    $div_children = $div.children();
-    $div_children.each(function(){
-        $(this).width($div.width() / $div_children.length);
-    })
+    resizeChildrenRec($div);
+}
+
+function resizeChildrenRec($div){
+    var $children = $div.children().filter('.constructor_task_container');
+    var parent_width = $div.width();
+    var children_width = $div.width() / $children.length;
+
+    for(var j=0; j< $children.length; j++){
+        $children.eq(j).width(children_width);
+        resizeChildrenRec($children.eq(j));
+    }
 }
 
 
@@ -145,32 +171,7 @@ function resize(){
 //    boxPrepend($(this).parent(), 'element');
 //});
 //
-//$(window).on('keydown',function(e){
-//    switch (e.code) {
-//        case "Tab":
-//            console.log(e.code);
-//            e.preventDefault();
-//            break;
-//        case "Enter":
-//            var $focused = $(':focus');
-//            boxPrepend($focused.parent(), 'element');
-//            break;
-//        case "ArrowUp":
-//             console.log(e.code);
-//            break;
-//        case "ArrowDown":
-//             console.log(e.code);
-//            break;
-//        case "ArrowLeft":
-//            resize();
-//             console.log(e.code);
-//            break;
-//        case "ArrowRight":
-//            resize2();
-//            console.log(e.code);
-//            break;
-//    }
-//})
+
 //
 //$(window).on('resize',function(e){ resize(); })
 //
