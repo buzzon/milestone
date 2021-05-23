@@ -68,7 +68,6 @@ function Box(element){
                 e.preventDefault();
                 break;
             case "Delete":
-                console.log(e.key);
                 deleteTask($(this).parent(), element);
                 e.preventDefault();
                 break;

@@ -182,8 +182,27 @@ function ganttAppend(element){
     var initial_date = new Date(element.initial_date)
     var pre_indent = (initial_date.getUTCHours() / 24 + initial_date.getDate() - first_date.getDate() - 1) * col_size;
 
-    var $div = $('<div class="task_container">').width(time_width).css( { marginLeft : pre_indent + "px" } );
+    var $div = $('<div class="task_container">').width(time_width + 10).css( { marginLeft : pre_indent + "px" } );
     var $link = $().add("<a>").attr("href", taskChangeUrl.replace('0', element.id));
     var $title = $().add("<p>" + element.title + "</p>").width(time_width).addClass("task").addClass("task" + element.status).addClass("noselect");
-    $tasks.append($div.append($link.append($title)));
+    var $description = $().add("<p>" + element.description + "</p>").width(time_width).addClass("task_description").addClass("task" + element.status).addClass("noselect");
+
+    $link.append($title);
+    if (element.description != "")
+        $link.append($description);
+    $tasks.append($div.append($link));
+
+    element.task.forEach(task => taskCreate($div, task));
+}
+
+function taskCreate($parent, element){
+    var time_width = Math.abs(Date.parse(element.deadline) - Date.parse(element.initial_date)) / 1000 / 60 / 60 / 24 * col_size;
+    var $div = $('<div class="task_container">').width(time_width);
+    var $link = $().add("<a>").attr("href", taskChangeUrl.replace('0', element.id));
+    var $title = $().add("<p>" + element.title + "</p>").width(time_width).addClass("task").addClass("task" + element.status).addClass("noselect");
+    var $description = $().add("<p>" + element.description + "</p>").width(time_width).addClass("task_description").addClass("task" + element.status).addClass("noselect");
+    $link.append($title);
+    if (element.description != "")
+        $link.append($description);
+    $parent.append($div.append($link));
 }

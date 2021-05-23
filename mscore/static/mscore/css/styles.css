@@ -12,6 +12,13 @@ html,body {
     overflow: hidden;
 }
 
+.task_description{
+    margin-top: -15px;
+    border: 1px solid;
+    border-radius:5px;
+    white-space: pre-wrap;
+}
+
 .noselect {
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
@@ -101,7 +108,15 @@ color:#ffc107;
 .constructor_task_container{
     height: 400px;
     float: left;
+    word-wrap: break-word;
 }
+
+.task_container{
+    border: 1px dashed;
+    margin: 10px 0;
+    padding: 5px;
+}
+
 
 #title_board{
     height: 60px;
