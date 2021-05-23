@@ -66,6 +66,33 @@ def get_task_time_period(request):
 def task_change(request):
     if request.method == 'POST':
         task = Task.objects.filter(space=request.POST['space']).get(pk=request.POST['pk'])
-        task.title = request.POST['title'];
+        task.title = request.POST['title']
         task.save()
         return Response({'task': TaskSerializer(task).data})
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def task_create(request):
+    if request.method == 'POST':
+        space_single = Space.objects.get(pk=request.POST['space'])
+        is_nested = request.POST['is_nested']
+        if request.POST.get('pk', None) is None:
+            new_task = Task(space=space_single)
+        else:
+            task = Task.objects.filter(space=request.POST['space']).get(pk=request.POST['pk'])
+            if is_nested == '1':
+                new_task = Task(space=space_single, parent=task, is_nested=True)
+            else:
+                new_task = Task(space=space_single, parent=task.parent, is_nested=task.parent is not None)
+        new_task.save()
+        return Response({'task': TaskSerializer(new_task).data})
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def task_delete(request):
+    if request.method == 'POST':
+        task = Task.objects.filter(space=request.POST['space']).get(pk=request.POST['pk'])
+        task.delete()
+        return Response({'task': 'deleted'})
