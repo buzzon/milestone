@@ -34,7 +34,7 @@ $.ajax({
 	            url: '/api/mscore/task/create/',
 	            method: 'post',
 	            dataType: 'json',
-	            data: { csrfmiddlewaretoken: getCookie('csrftoken'), space: space_id},
+	            data: { csrfmiddlewaretoken: getCookie('csrftoken'), space: space_id, is_nested: false},
 	        }).done(function(data){
 	            var box = Box(data.task);
 	            first_layer_count++;
@@ -115,12 +115,12 @@ function deleteTask($parent, element){
 }
 
 function updateTask(element, value){
-        $ajax({
-	        url: '/api/mscore/task/change/',
-	        method: 'post',
-	        dataType: 'json',
-            data: { csrfmiddlewaretoken: getCookie('csrftoken'), space: space_id, pk: element.id, title: value},
-        });
+    $ajax({
+        url: '/api/mscore/task/change/',
+        method: 'post',
+        dataType: 'json',
+        data: { csrfmiddlewaretoken: getCookie('csrftoken'), space: space_id, pk: element.id, title: value},
+    });
 }
 
 $(window).on('resize',function(e){ resize(); })

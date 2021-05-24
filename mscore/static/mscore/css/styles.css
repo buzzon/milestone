@@ -95,7 +95,6 @@ text-overflow: ellipsis;
 }
 
 .constructor_task_container{
-    min-width:300px;
     height: 400px;
     float: left;
     word-wrap: break-word;

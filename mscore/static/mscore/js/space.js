@@ -178,14 +178,13 @@ $.ajax({
 
 function ganttAppend(element){
     var $tasks = $('#tasks');
-    var time_width = Math.abs(Date.parse(element.deadline) - Date.parse(element.initial_date)) / 1000 / 60 / 60 / 24 * col_size;
-    var initial_date = new Date(element.initial_date)
-    var pre_indent = (initial_date.getUTCHours() / 24 + initial_date.getDate() - first_date.getDate() - 1) * col_size;
+    var time_width = (Date.parse(element.deadline) - Date.parse(element.initial_date)) / 1000 / 60 / 60 / 24 * col_size;
+    var initial_date = new Date(element.initial_date);
+    var pre_indent = (initial_date.getUTCHours() / 24 + initial_date.getDate() - first_date.getDate() - 2) * col_size;
 
     $div = taskCreate($tasks, element, pre_indent);
     $div.css( { marginLeft : pre_indent + "px" } );
 
-    element.task.forEach(task => taskCreate($div, task));
 }
 
 
@@ -235,6 +234,8 @@ function taskCreate($parent, element){
         $parent.width($card.width() + pre_indent);
 
     $parent.append($card);
+
+    element.task.forEach(task => taskCreate($card, task));
 
     return $card;
 }
