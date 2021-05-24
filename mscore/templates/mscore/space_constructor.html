@@ -6,11 +6,15 @@
 {# space_id.html #}
 <script>
     var space_id = "{{ space.id }}";
+    var space_title = "{{ space.title }}";
     var taskChangeUrl = "{% url 'task_update' space_pk=space.id task_pk=0 %}";
 </script>
 
 <!--<div id="title_board">"{{ space.title }}"</div>-->
-<div id="0"></div>
+<div id="0" class="constructor_body">
+    <div id="space_title">{{ space.title }}</div>
+</div>
+
 
 <script src="{% static 'mscore/js/jquery-3.6.0.min.js' %}"></script>
 <script src="{% static 'mscore/js/constructor.js' %}"></script>

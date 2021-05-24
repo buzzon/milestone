@@ -13,6 +13,9 @@ function getCookie(name) {
     return cookieValue;
 }
 
+var first_layer_count = 0;
+$('#content').removeClass('row');
+
 $ajax =  $.ajax;
 
 $.ajax({
@@ -21,7 +24,8 @@ $.ajax({
 	dataType: 'json',
     data: {space: space_id},
 	success: function(data){
-	    if (data.task.length){
+	    first_layer_count = data.task.length;
+	    if (first_layer_count){
 	        loadNode($('#0'), data);
             resize();
 	    }
@@ -33,6 +37,7 @@ $.ajax({
 	            data: { csrfmiddlewaretoken: getCookie('csrftoken'), space: space_id},
 	        }).done(function(data){
 	            var box = Box(data.task);
+	            first_layer_count++;
 	            $('#0').append(box);
                 resize();
 	        });
@@ -61,6 +66,9 @@ function Box(element){
     }).on('keydown',function(e){
          switch (e.key) {
             case "Enter":
+                if ($(this).parent().parent().attr('id') == 0){
+                    first_layer_count++;
+                };
                 createTask($(this).parent().parent(), element, false);
                 break;
             case "Tab":
@@ -68,6 +76,9 @@ function Box(element){
                 e.preventDefault();
                 break;
             case "Delete":
+                if ($(this).parent().parent().attr('id') == 0){
+                    first_layer_count--;
+                };
                 deleteTask($(this).parent(), element);
                 e.preventDefault();
                 break;
@@ -115,7 +126,11 @@ function updateTask(element, value){
 $(window).on('resize',function(e){ resize(); })
 
 function resize(){
-    $("#0").width(document.body.clientWidth);
+    var col_size = Math.max(document.body.clientWidth / first_layer_count, 300);
+
+    console.log(document.body.clientWidth / first_layer_count + " " + col_size);
+
+    $("#0").width(col_size * first_layer_count);
     var $div = $("#0");
     resizeChildrenRec($div);
 }
