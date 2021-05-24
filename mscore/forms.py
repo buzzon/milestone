@@ -8,7 +8,7 @@ from mscore.models import Task, Space
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        exclude = ['parent', 'space']
+        exclude = ['parent', 'space', 'is_nested']
         error_messages = {
             NON_FIELD_ERRORS: {
                 'unique_together': "%(model_name)s's %(field_labels)s are not unique.",

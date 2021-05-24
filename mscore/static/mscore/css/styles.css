@@ -29,26 +29,15 @@ html,body {
                                   supported by Chrome, Edge, Opera and Firefox */
 }
 
-.taskA{
-color:#17a2b8;
-}
-.taskW{
-color:#007bff;
-}
-.taskP{
-color:#6c757d;
-}
-.taskR{
-color:#28a745;
-}
-.taskC{
-color:#ffc107;
-}
 
 #main {
   display: flex;
   flex-flow: column;
   height: 100%;
+}
+
+.card-text{
+text-overflow: ellipsis;
 }
 
 
@@ -111,10 +100,12 @@ color:#ffc107;
     word-wrap: break-word;
 }
 
-.task_container{
-    border: 1px dashed;
-    margin: 10px 0;
-    padding: 5px;
+.card{
+    margin: 10px 0px;
+}
+
+.card-header{
+    cursor: pointer;
 }
 
 

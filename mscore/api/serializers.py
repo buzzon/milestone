@@ -22,7 +22,7 @@ class SubTaskSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Task
-        exclude = ['space', 'parent']
+        exclude = ['space']
 
     def __init__(self, *args, **kwargs):
         fields = kwargs.pop("fields", None)

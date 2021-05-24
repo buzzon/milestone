@@ -1,4 +1,4 @@
-let col_count = 8,
+let col_count = 5,
     col_quantity_add = 10,
     col_size = document.body.clientWidth / col_count;
 
@@ -182,27 +182,59 @@ function ganttAppend(element){
     var initial_date = new Date(element.initial_date)
     var pre_indent = (initial_date.getUTCHours() / 24 + initial_date.getDate() - first_date.getDate() - 1) * col_size;
 
-    var $div = $('<div class="task_container">').width(time_width + 10).css( { marginLeft : pre_indent + "px" } );
-    var $link = $().add("<a>").attr("href", taskChangeUrl.replace('0', element.id));
-    var $title = $().add("<p>" + element.title + "</p>").width(time_width).addClass("task").addClass("task" + element.status).addClass("noselect");
-    var $description = $().add("<p>" + element.description + "</p>").width(time_width).addClass("task_description").addClass("task" + element.status).addClass("noselect");
-
-    $link.append($title);
-    if (element.description != "")
-        $link.append($description);
-    $tasks.append($div.append($link));
+    $div = taskCreate($tasks, element, pre_indent);
+    $div.css( { marginLeft : pre_indent + "px" } );
 
     element.task.forEach(task => taskCreate($div, task));
 }
 
+
+var styles = new Map();
+styles.set("A", "taskA text-white bg-info");
+styles.set("W", "taskW text-white bg-primary");
+styles.set("P", "taskP text-white bg-secondary");
+styles.set("R", "taskR text-white bg-success");
+styles.set("C", "taskC text-white bg-warning");
+
 function taskCreate($parent, element){
     var time_width = Math.abs(Date.parse(element.deadline) - Date.parse(element.initial_date)) / 1000 / 60 / 60 / 24 * col_size;
-    var $div = $('<div class="task_container">').width(time_width);
-    var $link = $().add("<a>").attr("href", taskChangeUrl.replace('0', element.id));
-    var $title = $().add("<p>" + element.title + "</p>").width(time_width).addClass("task").addClass("task" + element.status).addClass("noselect");
-    var $description = $().add("<p>" + element.description + "</p>").width(time_width).addClass("task_description").addClass("task" + element.status).addClass("noselect");
-    $link.append($title);
-    if (element.description != "")
-        $link.append($description);
-    $parent.append($div.append($link));
+    var style = styles.get(element.status);
+
+    var $card = $().add('<div class="task_container card">').addClass("noselect").addClass(style).width(time_width);
+    var $card_title = $().add('<h5 class="card-header">').text(element.title);
+    $card.append($card_title);
+
+    $card_title.on('click', function(){
+        window.location.href = taskChangeUrl.replace('0', element.id);
+    });
+
+    if (element.description != ""){
+        var $card_body = $().add('<div class="card-body">');
+        var $card_description = $().add('<p class="card-text">').text(element.description);
+        $card_body.append($card_description);
+        $card.append($card_body);
+    }
+
+    var pre_indent;
+    if (element.parent != null){
+        var initial_date = new Date(element.initial_date);
+        var initial_date_parent = new Date(element.parent.initial_date);
+
+        var initial_width = (initial_date.getDate() + initial_date.getUTCHours() / 24) * col_size;
+        var initial_width_parent = (initial_date_parent.getDate() + initial_date_parent.getUTCHours() / 24) * col_size;
+
+        var pre_indent = initial_width - initial_width_parent;
+        console.log(time_width);
+        console.log(initial_date.getDate() + " " + initial_date_parent.getDate());
+        console.log(initial_date.getUTCHours() / 24 + " " + initial_date_parent.getUTCHours() / 24);
+        console.log(initial_date.getUTCHours());
+        $card.css( { marginLeft : pre_indent + "px" } );
+    }
+
+    if ($parent.width() <= $card.width() + pre_indent)
+        $parent.width($card.width() + pre_indent);
+
+    $parent.append($card);
+
+    return $card;
 }
