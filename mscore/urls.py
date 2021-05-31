@@ -2,6 +2,7 @@ from django.urls import path
 
 from . import views
 
+app_name = 'mscore'
 urlpatterns = [
     path('', views.index, name='index'),
     path('space/', views.space, name='space_list'),
@@ -12,5 +13,4 @@ urlpatterns = [
     path('space/<int:pk>/task/create/', views.task_create, name='task_create'),
     path('space/<int:space_pk>/task/<int:task_pk>/nested_create/', views.task_nested_create, name='task_create'),
     path('space/<int:space_pk>/task/<int:task_pk>/change/', views.task_change, name='task_update'),
-    path('user/change/', views.user_change, name='user_change'),
 ]

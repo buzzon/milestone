@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Milestone</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="svg/logo.svg" alt="logo" width="30" height="24" class="d-inline-block align-text-top">
+                Milestone
+            </a>
+            <div class="d-flex">
+                <a class="nav-link link-dark link-underline-hover" href="#" aria-disabled="true">Profile</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container mt-2 d-flex">
+        <div class="spaces">
+            <h3 class="text-center">Available spaces</h3>
+            <div class="card no-gutters position-relative mt-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ space.title }}</h5>
+                    <p class="card-text">Owner: {{ space.owner }}</p>
+                    <div>
+                        <a href="#{% url 'space_detail' space.id %}" class="stretched-link">Go somewhere</a>
+                        <a style="float: right;" href="#{% url 'space_edit' space.id %}" class="stretched-link">Edit</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card no-gutters position-relative mt-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ space.title }}</h5>
+                    <p class="card-text">Owner: {{ space.owner }}</p>
+                    <div>
+                        <a href="#{% url 'space_detail' space.id %}" class="stretched-link">Go somewhere</a>
+                        <a style="float: right;" href="#{% url 'space_edit' space.id %}" class="stretched-link">Edit</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card no-gutters position-relative mt-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ space.title }}</h5>
+                    <p class="card-text">Owner: {{ space.owner }}</p>
+                    <div>
+                        <a href="#{% url 'space_detail' space.id %}" class="stretched-link">Go somewhere</a>
+                        <a style="float: right;" href="#{% url 'space_edit' space.id %}" class="stretched-link">Edit</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card no-gutters position-relative mt-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ space.title }}</h5>
+                    <p class="card-text">Owner: {{ space.owner }}</p>
+                    <div>
+                        <a href="#{% url 'space_detail' space.id %}" class="stretched-link">Go somewhere</a>
+                        <a style="float: right;" href="#{% url 'space_edit' space.id %}" class="stretched-link">Edit</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card no-gutters position-relative mt-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ space.title }}</h5>
+                    <p class="card-text">Owner: {{ space.owner }}</p>
+                    <div>
+                        <a href="#{% url 'space_detail' space.id %}" class="stretched-link">Go somewhere</a>
+                        <a style="float: right;" href="#{% url 'space_edit' space.id %}" class="stretched-link">Edit</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card no-gutters position-relative mt-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ space.title }}</h5>
+                    <p class="card-text">Owner: {{ space.owner }}</p>
+                    <div>
+                        <a href="#{% url 'space_detail' space.id %}" class="stretched-link">Go somewhere</a>
+                        <a style="float: right;" href="#{% url 'space_edit' space.id %}" class="stretched-link">Edit</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card no-gutters position-relative mt-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ space.title }}</h5>
+                    <p class="card-text">Owner: {{ space.owner }}</p>
+                    <div>
+                        <a href="#{% url 'space_detail' space.id %}" class="stretched-link">Go somewhere</a>
+                        <a style="float: right;" href="#{% url 'space_edit' space.id %}" class="stretched-link">Edit</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tasks">
+            <div class="tasks-progress">
+                <h3 class="text-center">Tasks in progress</h3>
+                <div class="card no-gutters position-relative mt-3 mx-3">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ task.title }}</h5>
+                        <p class="card-text">Owner: {{ task.description }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="tasks-waiting mt-3">
+                <h3 class="text-center">tasks in waiting</h3>
+                <div class="card no-gutters position-relative mt-3 mx-3">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ task.title }}</h5>
+                        <p class="card-text">Owner: {{ task.description }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

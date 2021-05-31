@@ -4,13 +4,21 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from mscore.api.views import SpaceList, SpaceDetail
-from mscore.forms import TaskForm, UserForm, SpaceForm, UserRegistrationForm
+from mscore.forms import TaskForm, SpaceForm
 from mscore.models import Space, Task
 
 
 def index(request):
-    context = {'user': request.user}
-    return render(request, 'mscore/index.html', context)
+    user = request.user
+    spaces = []
+    progress_tasks = Task.objects.none()
+    if user.is_authenticated:
+        spaces = SpaceList(request=request).get_queryset()
+        progress_tasks_list = [space.tasks.filter(status="P") for space in spaces]
+        for task in progress_tasks_list:
+            progress_tasks = progress_tasks.union(task)
+        progress_tasks = progress_tasks.order_by('deadline')
+    return render(request, 'mscore/index.html', {'user': user, 'spaces': spaces, 'progress_tasks': progress_tasks})
 
 
 @login_required
@@ -126,28 +134,3 @@ def space_edit(request, pk):
     else:
         form = SpaceForm(instance=space_single)
     return render(request, 'mscore/form/base.html', {'form': form})
-
-
-@login_required
-def user_change(request):
-    user = request.user
-
-    if request.method == 'POST':
-        form = UserForm(request.POST, instance=user)
-        form.save()
-    else:
-        form = UserForm(instance=user)
-    return render(request, 'mscore/form/base.html', {'form': form})
-
-
-def register(request):
-    if request.method == 'POST':
-        user_form = UserRegistrationForm(request.POST)
-        if user_form.is_valid():
-            new_user = user_form.save(commit=False)
-            new_user.set_password(user_form.cleaned_data['password'])
-            new_user.save()
-            return render(request, 'registration/register_done.html', {'form': new_user})
-    else:
-        user_form = UserRegistrationForm()
-    return render(request, 'mscore/form/base.html', {'form': user_form})

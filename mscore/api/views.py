@@ -1,7 +1,6 @@
 from rest_framework import generics
-from rest_framework.decorators import api_view, permission_classes, renderer_classes
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
@@ -12,8 +11,8 @@ from mscore.api.serializers import *
 @permission_classes([IsAuthenticated])
 def api_root(request, format=None):
     return Response({
-        'spaces': reverse('space-list-api', request=request, format=format),
-        'tasks': reverse('task_list_api', request=request, format=format),
+        'spaces': reverse('mscore-api:space-list', request=request, format=format),
+        'tasks': reverse('mscore-api:task-list', request=request, format=format),
     })
 
 

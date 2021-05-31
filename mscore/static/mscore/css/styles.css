@@ -12,6 +12,22 @@ html,body {
     overflow: hidden;
 }
 
+.link-underline-hover {
+    text-decoration: none;
+}
+
+.link-underline-hover:hover {
+    text-decoration: underline;
+}
+
+.spaces{
+    flex: 2;
+}
+
+.tasks{
+    flex: 1;
+}
+
 .task_description{
     margin-top: -15px;
     border: 1px solid;

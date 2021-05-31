@@ -1,0 +1,15 @@
+.link-underline-hover {
+    text-decoration: none;
+}
+
+.link-underline-hover:hover {
+    text-decoration: underline;
+}
+
+.spaces{
+    flex: 2;
+}
+
+.tasks{
+    flex: 1;
+}

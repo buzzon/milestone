@@ -1,12 +1,69 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-<div class="container">
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'user_manager/css/styles.css' %}">
+{% if user.is_authenticated %}
+    <div class="container mt-2 d-flex">
+        <div class="spaces">
+            <h3 class="text-center">Available spaces</h3>
+            {% if spaces %}
+            {% for space in spaces %}
+            <div class="card mt-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ space.title }}</h5>
+                    <p class="card-text">Owner: {{ space.owner }}</p>
+                    {% if space.members.count > 0 %}
+                        <p class="card-text">Members:
+                        {% for member in space.members.all %}
+                            {{ member }}
+                        {% endfor %}
+                        </p>
+                    {% endif %}
+                    <div>
+                        <a href="{% url 'mscore:space_detail' space.id %}">Go somewhere</a>
+                        <a style="float: right;" href="{% url 'mscore:space_edit' space.id %}">Edit</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+                <p>No spaces are available.</p>
+            {% endif %}
+        </div>
+        {% if progress_tasks %}
+        <div class="tasks">
+            <div class="tasks-progress">
+                <h3 class="text-center">Tasks in progress</h3>
+                {% for task in progress_tasks %}
+                <div class="card no-gutters position-relative mt-3 mx-3">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ task.title }}</h5>
+                        <p class="card-text">Deadline: {{task.deadline}}</p>
+                        <p class="card-text">{{ task.description }}</p>
+                        <p class="card-text">Space: {{ task.space }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+<!--            <div class="tasks-waiting mt-3">-->
+<!--                <h3 class="text-center">tasks in waiting</h3>-->
+<!--                <div class="card no-gutters position-relative mt-3 mx-3">-->
+<!--                    <div class="card-body">-->
+<!--                        <h5 class="card-title">{{ task.title }}</h5>-->
+<!--                        <p class="card-text">Owner: {{ task.description }}</p>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+        </div>
+        {% endif %}
+    </div>
+{% else %}
+<div class="container mt-4">
     <h1 class="cover-heading">Milestone helps teams work more productivity.</h1>
     <p class="lead">Provides the transparency and control of individual responsibility necessary for effective
         teamwork, and allows people to organize and track tasks.</p>
 </div>
-</div>
-
-
+{% endif %}
 {% endblock %}

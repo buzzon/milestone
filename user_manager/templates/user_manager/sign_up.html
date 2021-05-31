@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Milestone</title>
+    {% load static %}
+    <link rel="shortcut icon" href="{% static 'user_manager/svg/logo.svg' %}"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container mt-5" style="width: 350px;">
+        <div class="d-flex flex-column">
+            <img src="{% static 'user_manager/svg/logo.svg' %}" class="mx-auto" alt="logo" width="100" height="100">
+            <div class="d-flex justify-content-center">
+                <h5 class="card-title">Create your account</h5>
+            </div>
+        </div>
+        <div class="card mt-3">
+            <div class="card-body">
+                <form action="." method="post">
+                    {% csrf_token %}
+                    <div class="form-group mt-2">
+                        {{ form.username.errors }}
+                        {{ form.username.label_tag }}
+                        {{ form.username }}
+                    </div>
+                    <div class="form-group mt-3">
+                        {{ form.email.errors }}
+                        {{ form.email.label_tag }}
+                        {{ form.email }}
+                    </div>
+                    <div class="form-group mt-3">
+                        {{ form.password.errors }}
+                        <div class="d-flex">
+                            <div class="me-auto">{{ form.password.label_tag }}</div>
+                            <small><a href="#" class="link-underline-hover">Forgot password?</a></small>
+                        </div>
+                        {{ form.password }}
+                    </div>
+                    <div class="d-grid mt-3">
+                        <input type="submit" class="btn btn-sm btn-block btn-success " value="Create account">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

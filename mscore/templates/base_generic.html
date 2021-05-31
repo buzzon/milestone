@@ -3,70 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-        {% load static %}
-        <link rel="stylesheet" type="text/css" href="{% static 'mscore/css/styles.css' %}">
     <title>Milestone</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'mscore/css/styles.css' %}">
     <link rel="shortcut icon" href="{% static 'mscore/svg/logo.svg' %}"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 </head>
 
-<div id="main">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand mb-0 h1" href="{% url 'index' %}">Milestone</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                {% url 'index' as url %}
-                <li class="nav-item {% if request.path == url %}active{% endif %}">
-                    <a class="nav-link" href="{{ url }}">Home</a>
-                </li>
+<body>
+    <nav class="navbar navbar-sm sticky-top navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'mscore:index'%}">
+                <img src="{% static 'mscore/svg/logo.svg' %}" alt="logo" width="30" height="24" class="d-inline-block align-text-top">
+                Milestone
+            </a>
+            <form class="d-flex">
                 {% if user.is_authenticated %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'user_change' %}">{{ user.username }}</a>
-                </li>
-                {% url 'space_list' as url %}
-                <li class="nav-item {% if request.path == url %}active{% endif %}">
-                    <a class="nav-link" href="{{ url }}">Spaces</a>
-                </li>
+                    <a class="nav-link link-dark link-underline-hover" href="{% url 'user_manager:user_update' %}">{{ user }}</a>
                 {% if user.is_staff %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'root-api' %}">API</a>
-                </li>
+                    <a class="nav-link link-dark link-underline-hover" href="{% url 'admin:index' %}">Admin</a>
+                    <a class="nav-link link-dark link-underline-hover" href="{% url 'mscore-api:root' %}">API</a>
                 {% endif %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'logout'%}">Logout</a>
-                </li>
                 {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'login'%}">Login</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'register' %}">Register</a>
-                </li>
+                    <a class="nav-link link-success link-underline-hover" href="{% url 'user_manager:sign_in'%}">Sign in</a>
+                    <a class="nav-link link-primary link-underline-hover" href="{% url 'user_manager:sign_up' %}">Sign up</a>
                 {% endif %}
-            </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search">
-                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
             </form>
         </div>
     </nav>
-    <div id="content" class="row">
-        {% block content %}{% endblock %}
-    </div>
-</div>
-
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    {% block content %}{% endblock %}
 </body>
 </html>

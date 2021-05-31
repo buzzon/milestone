@@ -16,12 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from mscore import views
-
 urlpatterns = [
     path('', include('mscore.urls')),
     path('api/mscore/', include('mscore.api.urls')),
+    path('accounts/', include('user_manager.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('admin/', admin.site.urls),
-    path('register/', views.register, name='register'),
 ]

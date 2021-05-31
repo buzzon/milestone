@@ -48,7 +48,7 @@ class Task(models.Model):
     publish_date = models.DateTimeField(auto_now_add=True, editable=False)
     initial_date = models.DateTimeField(default=datetime.now, blank=True)
     deadline = models.DateTimeField(default=tomorrow, blank=True)
-    is_nested = models.BooleanField(default=False);
+    is_nested = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['-deadline', 'status']
