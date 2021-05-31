@@ -1,0 +1,23 @@
+.card-body-hide{
+    max-height: 0;
+    transition: max-height 0.5s ease-out;
+    overflow: hidden;
+    padding: 0;
+}
+
+.card-body-hide *{
+    margin: 5px 16px;
+}
+
+.card:hover .card-body-hide{
+    max-height: 500px;
+    transition: max-height 0.5s ease-in;
+}
+
+.link-underline-hover {
+    text-decoration: none;
+}
+
+.link-underline-hover:hover {
+    text-decoration: underline;
+}

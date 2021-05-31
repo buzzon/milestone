@@ -38,6 +38,7 @@ def space_create(request):
         space_single.save()
     else:
         form = SpaceForm()
+        form.declared_fields['members'].queryset = form.declared_fields['members'].choices.queryset.exclude(pk=request.user.id)
     return render(request, 'mscore/form/base.html', {'form': form})
 
 
@@ -75,7 +76,7 @@ def task_create(request, pk):
         task = form.save(commit=False)
         task.space = space_single
         task.save()
-        return HttpResponseRedirect(reverse('space_detail', args=(pk,)))
+        return HttpResponseRedirect(reverse('mscore:space_detail', args=(pk,)))
     else:
         form = TaskForm()
     return render(request, 'mscore/form/base.html', {'form': form})
@@ -99,7 +100,7 @@ def task_nested_create(request, space_pk, task_pk):
         task.is_nested = True;
         task.save()
 
-        return HttpResponseRedirect(reverse('space_detail', args=(space_pk,)))
+        return HttpResponseRedirect(reverse('mscore:space_detail', args=(space_pk,)))
     else:
         form = TaskForm()
     return render(request, 'mscore/form/base.html', {'form': form})
@@ -115,7 +116,7 @@ def task_change(request, space_pk, task_pk):
     if request.method == 'POST':
         form = TaskForm(request.POST, instance=task)
         form.save()
-        return HttpResponseRedirect(reverse('space_detail', args=(space_pk,)))
+        return HttpResponseRedirect(reverse('mscore:space_detail', args=(space_pk,)))
     else:
         form = TaskForm(instance=task)
     return render(request, 'mscore/form/base.html', {'form': form})

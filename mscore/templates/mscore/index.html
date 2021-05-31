@@ -3,7 +3,7 @@
 {% block content %}
 
 {% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'user_manager/css/styles.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'mscore/css/main_page_style.css' %}">
 {% if user.is_authenticated %}
     <div class="container mt-2 d-flex">
         <div class="spaces">
@@ -11,8 +11,11 @@
             {% if spaces %}
             {% for space in spaces %}
             <div class="card mt-3">
-                <div class="card-body">
+                <div class="card-header">
                     <h5 class="card-title">{{ space.title }}</h5>
+                    <a class="stretched-link" href="{% url 'mscore:space_detail' space.id %}"></a>
+                </div>
+                <div class="card-body">
                     <p class="card-text">Owner: {{ space.owner }}</p>
                     {% if space.members.count > 0 %}
                         <p class="card-text">Members:
@@ -21,16 +24,18 @@
                         {% endfor %}
                         </p>
                     {% endif %}
-                    <div>
-                        <a href="{% url 'mscore:space_detail' space.id %}">Go somewhere</a>
-                        <a style="float: right;" href="{% url 'mscore:space_edit' space.id %}">Edit</a>
-                    </div>
                 </div>
             </div>
             {% endfor %}
             {% else %}
                 <p>No spaces are available.</p>
             {% endif %}
+            <div class="card mt-3">
+                <div class="card-body d-flex justify-content-center">
+                    <p class="card-title fs-4">+</p>
+                    <a class="stretched-link" href="{% url 'mscore:space_create' %}"></a>
+                </div>
+            </div>
         </div>
         {% if progress_tasks %}
         <div class="tasks">
@@ -38,11 +43,16 @@
                 <h3 class="text-center">Tasks in progress</h3>
                 {% for task in progress_tasks %}
                 <div class="card no-gutters position-relative mt-3 mx-3">
-                    <div class="card-body">
+                    <div class="card-header">
                         <h5 class="card-title">{{ task.title }}</h5>
-                        <p class="card-text">Deadline: {{task.deadline}}</p>
+                        <a class="stretched-link" href="{% url 'mscore:task_update' space_pk=task.space.id task_pk=task.id %}"></a>
+                    </div>
+                    <div class="card-body card-body-hide">
                         <p class="card-text">{{ task.description }}</p>
                         <p class="card-text">Space: {{ task.space }}</p>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <p class="card-text">Deadline: {{task.deadline}}</p>
                     </div>
                 </div>
                 {% endfor %}
