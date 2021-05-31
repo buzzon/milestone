@@ -134,4 +134,6 @@ def space_edit(request, pk):
         form.save()
     else:
         form = SpaceForm(instance=space_single)
+        form.declared_fields['members'].queryset = form.declared_fields['members'].choices.queryset.exclude(
+            pk=request.user.id)
     return render(request, 'mscore/form/base.html', {'form': form})
