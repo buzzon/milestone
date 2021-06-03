@@ -22,7 +22,7 @@ $.ajax({
 	url: '/api/mscore/task/period/',
 	method: 'get',
 	dataType: 'json',
-    data: {space: space_id},
+    data: {space_id},
 	success: function(data){
 	    first_layer_count = data.task.length;
 	    if (first_layer_count){
@@ -34,7 +34,7 @@ $.ajax({
 	            url: '/api/mscore/task/create/',
 	            method: 'post',
 	            dataType: 'json',
-	            data: { csrfmiddlewaretoken: getCookie('csrftoken'), space: space_id, is_nested: false},
+	            data: { csrfmiddlewaretoken: getCookie('csrftoken'), space_id, is_nested: false},
 	        }).done(function(data){
 	            var box = Box(data.task);
 	            first_layer_count++;
@@ -93,7 +93,7 @@ function createTask($parent, element, is_nested){
 	    url: '/api/mscore/task/create/',
 	    method: 'post',
 	    dataType: 'json',
-        data: { csrfmiddlewaretoken: getCookie('csrftoken'), space: space_id, pk: element.id, is_nested: is_nested?1:0 },
+        data: { csrfmiddlewaretoken: getCookie('csrftoken'), space_id, pk: element.id, is_nested: is_nested?1:0 },
     })).done(function(data){
         var $boxInput = Box(data.task);
         $parent.append($boxInput);
@@ -107,7 +107,7 @@ function deleteTask($parent, element){
 	    url: '/api/mscore/task/delete/',
 	    method: 'post',
 	    dataType: 'json',
-        data: { csrfmiddlewaretoken: getCookie('csrftoken'), space: space_id, pk: element.id},
+        data: { csrfmiddlewaretoken: getCookie('csrftoken'), space_id, pk: element.id},
     })).done(function(data){
         $parent.remove();
         resize();
@@ -119,7 +119,7 @@ function updateTask(element, value){
         url: '/api/mscore/task/change/',
         method: 'post',
         dataType: 'json',
-        data: { csrfmiddlewaretoken: getCookie('csrftoken'), space: space_id, pk: element.id, title: value},
+        data: { csrfmiddlewaretoken: getCookie('csrftoken'), space_id, pk: element.id, title: value},
     });
 }
 

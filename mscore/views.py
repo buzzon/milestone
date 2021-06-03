@@ -14,19 +14,12 @@ def index(request):
     progress_tasks = Task.objects.none()
     if user.is_authenticated:
         spaces = SpaceList(request=request).get_queryset()
-        progress_tasks_list = [space.tasks.filter(status="P") for space in spaces]
+        progress_tasks_list = [sp.tasks.filter(status="P") for sp in spaces]
         for task in progress_tasks_list:
             progress_tasks = progress_tasks.union(task)
-        progress_tasks = progress_tasks.order_by('deadline')
+        if progress_tasks.count() > 0:
+            progress_tasks = progress_tasks.order_by('deadline')
     return render(request, 'mscore/index.html', {'user': user, 'spaces': spaces, 'progress_tasks': progress_tasks})
-
-
-@login_required
-def space(request):
-    space_data = SpaceList(request=request).get_queryset()
-    context = {'space_data': space_data,
-               'user': request.user}
-    return render(request, 'mscore/space_list.html', context)
 
 
 @login_required
@@ -43,14 +36,12 @@ def space_create(request):
 
 
 @login_required
-def space_detail(request, pk):
+def space_gantt(request, pk):
     try:
         space_single = SpaceDetail(request=request).get_queryset().get(id=pk)
     except Space.DoesNotExist:
         raise Http404("Space does not exist")
-
-    context = {'space': space_single}
-    return render(request, 'mscore/space_detail.html', context)
+    return render(request, 'mscore/space_gantt.html', {'space': space_single})
 
 
 @login_required
@@ -59,9 +50,7 @@ def space_constructor(request, pk):
         space_single = SpaceDetail(request=request).get_queryset().get(id=pk)
     except Space.DoesNotExist:
         raise Http404("Space does not exist")
-
-    context = {'space': space_single }
-    return render(request, 'mscore/space_constructor.html', context)
+    return render(request, 'mscore/space_constructor.html', {'space': space_single})
 
 
 @login_required

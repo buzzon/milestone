@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Milestone</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'mscore/css/gantt_style.css' %}">
+    <link rel="shortcut icon" href="{% static 'mscore/svg/logo.svg' %}"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+</head>
+
+<body>
+    <nav class="navbar navbar-sm sticky-top navbar-light bg-light">
+        <div class="container">
+            <a class="link-dark link-underline-hover fs-5 " href="{% url 'mscore:index'%}">Home</a>
+            <div>
+                <a class="link-dark link-underline-hover text-uppercase fs-5" href="{% url 'mscore:space_edit' space.id %}">{{ space }}</a>
+            </div>
+            <div>
+                <a class="link-dark link-underline-hover fs-5 " href="{% url 'mscore:space_constructor' pk=space.id %}">Constructor</a>
+            </div>
+        </div>
+    </nav>
+    {% block content %}{% endblock %}
+</body>
+</html>

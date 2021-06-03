@@ -19,7 +19,7 @@
 <script src="{% static 'mscore/js/jquery-3.6.0.min.js' %}"></script>
 <script src="{% static 'mscore/js/constructor.js' %}"></script>
 
-<a id="space_gantt" href="{% url 'mscore:space_detail' pk=space.id %}"><img style="width: 48px; color:#007bff;" src="{% static 'data/gantt-chart.svg' %}"></a>
+<a id="space_gantt" href="{% url 'mscore:space_gantt' pk=space.id %}"><img style="width: 48px; color:#007bff;" src="{% static 'data/gantt-chart.svg' %}"></a>
 
 
 {% endblock %}

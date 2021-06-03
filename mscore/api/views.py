@@ -1,6 +1,7 @@
+import pytz
 from rest_framework import generics
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
@@ -8,15 +9,15 @@ from mscore.api.serializers import *
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAdminUser])
 def api_root(request, format=None):
     return Response({
-        'spaces': reverse('mscore-api:space-list', request=request, format=format),
-        'tasks': reverse('mscore-api:task-list', request=request, format=format),
+        'spaces': reverse('mscore_api:space-list', request=request, format=format),
+        # 'tasks': reverse('mscore_api:task-list', request=request, format=format),
     })
 
 
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAdminUser])
 class SpaceList(generics.ListCreateAPIView):
     serializer_class = SpaceSerializer
     model = Space
@@ -41,22 +42,24 @@ class SpaceDetail(generics.RetrieveUpdateDestroyAPIView):
         return (membered_spaces | owned_spaces).distinct()
 
 
-@permission_classes([IsAuthenticated])
-class TaskList(generics.ListAPIView):
-    serializer_class = TaskSerializer
-    model = Task
-
-    def get_queryset(self):
-        # return Task.objects.filter(space=self.request.GET['space'])
-        return Task.objects.filter(is_nested=False)
+# @permission_classes([IsAuthenticated])
+# class TaskList(generics.ListAPIView):
+#     serializer_class = TaskSerializer
+#     model = Task
+#
+#     def get_queryset(self):
+#         # return Task.objects.filter(space=self.request.GET['space'])
+#         return Task.objects.filter(is_nested=False)
 
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_task_time_period(request):
     if request.method == 'GET':
-        # tasks = Task.objects.filter(space=request.GET['space']).filter(initial_date__range=["2021-05-01", "2021-06-01"])
-        tasks = Task.objects.filter(space=request.GET['space']).filter(is_nested=False)
+        space = request.GET['space_id']
+        first_date = datetime.strptime(request.GET['first_date'], "%a, %d %b %Y %H:%M:%S %Z").replace(tzinfo=pytz.UTC)
+        last_date = datetime.strptime(request.GET['last_date'], "%a, %d %b %Y %H:%M:%S %Z").replace(tzinfo=pytz.UTC)
+        tasks = Task.objects.filter(space=space).filter(is_nested=False, initial_date__range=[first_date, last_date])
         return Response({'task': TaskSerializer(tasks, many=True).data})
 
 

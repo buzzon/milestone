@@ -18,18 +18,18 @@
                 <img src="{% static 'mscore/svg/logo.svg' %}" alt="logo" width="30" height="24" class="d-inline-block align-text-top">
                 Milestone
             </a>
-            <form class="d-flex">
+            <div class="d-flex">
                 {% if user.is_authenticated %}
                     <a class="nav-link link-dark link-underline-hover" href="{% url 'user_manager:user_update' %}">{{ user }}</a>
                 {% if user.is_staff %}
                     <a class="nav-link link-dark link-underline-hover" href="{% url 'admin:index' %}">Admin</a>
-                    <a class="nav-link link-dark link-underline-hover" href="{% url 'mscore-api:root' %}">API</a>
+                    <a class="nav-link link-dark link-underline-hover" href="{% url 'mscore_api:root' %}">API</a>
                 {% endif %}
                 {% else %}
                     <a class="nav-link link-success link-underline-hover" href="{% url 'user_manager:sign_in'%}">Sign in</a>
                     <a class="nav-link link-primary link-underline-hover" href="{% url 'user_manager:sign_up' %}">Sign up</a>
                 {% endif %}
-            </form>
+            </div>
         </div>
     </nav>
     {% block content %}{% endblock %}

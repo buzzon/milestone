@@ -6,10 +6,60 @@
     text-decoration: underline;
 }
 
-.spaces{
-    flex: 2;
+body{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 }
 
-.tasks{
+#gantt{
+    flex-grow: 1;
+    position: relative;
+}
+
+#timeline{
+    height: 100%;
     flex: 1;
+    display: flex;
+}
+
+#tasks{
+    height: 100%;
+    flex: 1;
+    display: flex;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding-top: 34px;
+}
+
+.task-list{
+    flex: 1;
+    min-width: 300px;
+    background-color: #f8f9fa;
+}
+
+.task-gantt{
+    flex: 7;
+    display: flex;
+    overflow-x: hidden;
+}
+
+.time-column{
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+}
+
+.time-data{
+    border-bottom: 1px black solid;
+    text-align: center;
+    padding: 5px 0;
+    background-color: #f8f9fa;
+}
+
+.time-border{
+    border-left: 1px black solid;
+    flex:1;
 }

@@ -5,9 +5,9 @@ from . import views
 app_name = 'mscore'
 urlpatterns = [
     path('', views.index, name='index'),
-    path('space/', views.space, name='space_list'),
     path('space/create/', views.space_create, name='space_create'),
-    path('space/<int:pk>/change/', views.space_detail, name='space_detail'),
+    path('space/<int:pk>/gantt/', views.space_gantt, name='space_gantt'),
+
     path('space/<int:pk>/constructor/', views.space_constructor, name='space_constructor'),
     path('space/<int:pk>/edit/', views.space_edit, name='space_edit'),
     path('space/<int:pk>/task/create/', views.task_create, name='task_create'),

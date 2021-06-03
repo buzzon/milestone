@@ -1,0 +1,35 @@
+{% extends "space_generic.html" %}
+
+{% block content %}
+{% load static %}
+
+{# space_id.html #}
+<script>
+    var space_id = "{{ space.id }}";
+    var taskChangeUrl = "{% url 'mscore:task_update' space_pk=space.id task_pk=0 %}";
+
+</script>
+
+<div id="gantt">
+    <div id="timeline">
+        <div class="task-list">
+            {% for task in space.tasks.all %}
+            {% if task.is_nested == False %}
+                <div id="task_{{task.id}}" class="task_on_list">{{task.title}}</div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        <div id="time-list" class="task-gantt">
+            <div id="tasks"></div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'mscore/js/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'mscore/js/gantt.js' %}"></script>
+
+
+<!--<a id="add_task" href="{% url 'mscore:task_create' pk=space.id %}"><i class="fas fa-plus-circle fa-3x"></i></a>-->
+<!--<a id="constructor_button" href="{% url 'mscore:space_constructor' pk=space.id %}"><img style="width: 48px; color:#007bff;" src="{% static 'data/constructor.svg' %}"></a>-->
+
+{% endblock %}
