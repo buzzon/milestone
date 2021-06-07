@@ -51,8 +51,9 @@
             var deadline = new Date($(this).data("deadline"));
             var initial_date = new Date($(this).data("initial_date"));
             var time_width = (deadline - initial_date) / 1000 / 60 / 60 / 24 * col_size;
-            var pre_indent_minutes = (initial_date.getHours() + initial_date.getMinutes() / 60) * col_size / 24;
-            var pre_indent_days = (parseInt((initial_date-first_date)/(24*3600*1000)) + 1) * col_size;
+
+            var pre_indent_minutes = (initial_date.getUTCHours() + initial_date.getMinutes() / 60) * col_size / 24;
+            var pre_indent_days = (parseInt((initial_date-first_date)/(24*3600*1000))) * col_size;
             var pre_indent = pre_indent_minutes + pre_indent_days;
 
             $( this ).width( time_width );

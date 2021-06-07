@@ -39,12 +39,6 @@ def space_tasks(request, pk):
         tasks = Space.objects.get(pk=pk).tasks.filter(is_nested=False)
         data['tasks'] = render_to_string('mscore/parts/gantt_tasks.html', {'tasks': tasks}, request=request)
     return JsonResponse(data)
-    # serializer_class = TaskSerializer
-    # model = Task
-    #
-    # def get_queryset(self):
-    #     tasks = dict()
-    #     return Task.objects.all()
 
 
 @permission_classes([IsAuthenticated])
