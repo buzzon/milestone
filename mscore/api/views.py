@@ -1,4 +1,6 @@
 import pytz
+from django.http import JsonResponse
+from django.template.loader import render_to_string
 from rest_framework import generics
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
@@ -29,6 +31,20 @@ class SpaceList(generics.ListCreateAPIView):
         owned_spaces = Space.objects.filter(owner=self.request.user)
         membered_spaces = Space.objects.filter(members=self.request.user)
         return (membered_spaces | owned_spaces).distinct()
+
+
+def space_tasks(request, pk):
+    data = dict()
+    if request.method == 'GET':
+        tasks = Space.objects.get(pk=pk).tasks.filter(is_nested=False)
+        data['tasks'] = render_to_string('mscore/parts/gantt_tasks.html', {'tasks': tasks}, request=request)
+    return JsonResponse(data)
+    # serializer_class = TaskSerializer
+    # model = Task
+    #
+    # def get_queryset(self):
+    #     tasks = dict()
+    #     return Task.objects.all()
 
 
 @permission_classes([IsAuthenticated])

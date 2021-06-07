@@ -6,7 +6,7 @@ from mscore.models import Task, Space
 from bootstrap_modal_forms.forms import BSModalModelForm
 
 
-class TaskForm(forms.ModelForm):
+class TaskForm(BSModalModelForm):
     class Meta:
         model = Task
         exclude = ['parent', 'space', 'is_nested']

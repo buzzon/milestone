@@ -2,11 +2,9 @@
 
 {% block content %}
 {% load static %}
-
-{# space_id.html #}
 <script>
     var space_id = "{{ space.id }}";
-    var taskChangeUrl = "{% url 'mscore:task_update' space_pk=space.id task_pk=0 %}";
+    var taskChangeUrl = "{% url 'mscore:task_update' pk=0 %}";
 </script>
 
 <div id="gantt">
@@ -25,8 +23,46 @@
 </div>
 
 <script src="{% static 'mscore/js/jquery-3.6.0.min.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+<script src="{% static 'mscore/js/jquery.bootstrap.modal.forms.min.js' %}"></script>
 <script src="{% static 'mscore/js/gantt.js' %}"></script>
+<script>
+    function updateTaskModalForm() {
+        var s = $(".task").each(function (){
+            var url = "{% url 'mscore:task_update' pk=0 %}".replace(0, this.id);
+            $(this).modalForm({
+                formURL: url,
+                asyncUpdate: true,
+                asyncSettings: {
+                    closeOnSubmit: true,
+                    successMessage: "qwe",
+                    dataUrl: "{% url 'mscore_api:space_tasks' pk=space.id %}",
+                    dataElementId: "#tasks",
+                    dataKey: "tasks",
+                    addModalFormFunction: resize_tasks
+                }
+            });
+        });
+    }
 
+    function resize_tasks(){
+        updateTaskModalForm();
+        $("#tasks").children(".task").each(function(){
+            var deadline = new Date($(this).data("deadline"));
+            var initial_date = new Date($(this).data("initial_date"));
+            var time_width = (deadline - initial_date) / 1000 / 60 / 60 / 24 * col_size;
+            var pre_indent_minutes = (initial_date.getHours() + initial_date.getMinutes() / 60) * col_size / 24;
+            var pre_indent_days = (parseInt((initial_date-first_date)/(24*3600*1000)) + 1) * col_size;
+            var pre_indent = pre_indent_minutes + pre_indent_days;
+
+            $( this ).width( time_width );
+            $( this ).css( { marginLeft : pre_indent } );
+        })
+    }
+
+</script>
+
+{% include "mscore/modal.html" %}
 
 <!--<a id="add_task" href="{% url 'mscore:task_create' pk=space.id %}"><i class="fas fa-plus-circle fa-3x"></i></a>-->
 <!--<a id="constructor_button" href="{% url 'mscore:space_constructor' pk=space.id %}"><img style="width: 48px; color:#007bff;" src="{% static 'data/constructor.svg' %}"></a>-->

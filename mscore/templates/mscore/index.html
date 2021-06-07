@@ -1,7 +1,6 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'mscore/css/main_page_style.css' %}">
 {% if user.is_authenticated %}
@@ -28,7 +27,7 @@
             </div>
             {% endfor %}
             {% endif %}
-            <div id="create-space" class="card mt-3" style="cursor:pointer">
+            <div id="create-space" class="card my-3" style="cursor:pointer">
                 <div class="card-body d-flex justify-content-center">
                     <p class="card-title fs-4">+</p>
                 </div>
@@ -42,9 +41,7 @@
                 <div class="card no-gutters position-relative mt-3 mx-3">
                     <div class="card-header">
                         <h5 class="card-title">{{ task.title }}</h5>
-<!--                        <a class="stretched-link" href="{% url 'mscore:task_update' space_pk=task.space.id task_pk=task.id %}"></a>-->
-<!--                        <a id="{{task.space.id}}_{{task.id}}" class="progress_task stretched-link" data-bs-toggle="modal" data-bs-target="#modal"></a>-->
-                        <a id="{{task.space.id}}_{{task.id}}" class="progress_task stretched-link"></a>
+                        <a id="{{task.id}}" class="progress_task stretched-link" data-form-url="{% url 'mscore:task_update' pk=task.id %}"></a>
                     </div>
                     <div class="card-body-hide">
                         <p class="card-text">{{ task.description }}</p>
@@ -56,6 +53,7 @@
                 </div>
                 {% endfor %}
             </div>
+            <div id="books-table"></div>
         </div>
         {% endif %}
     </div>
@@ -63,16 +61,23 @@
     <script src="{% static 'mscore/js/jquery-3.6.0.min.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
     <script src="{% static 'mscore/js/jquery.bootstrap.modal.forms.min.js' %}"></script>
-
     <script>
-        var taskChangeUrl = "{% url 'mscore:task_update' space_pk=0 task_pk=1 %}";
         $(document).ready(function() {
             $("#create-space").modalForm({
-            formURL: "{% url 'mscore:space_create' %}"
+                formURL: "{% url 'mscore:space_create' %}"
             });
+
+            function updateTaskModalForm() {
+                $(".progress_task").each(function (){
+                    console.log($(this));
+                    $(this).modalForm({
+                        formURL: $(this).data("form-url")
+                    });
+                });
+            }
+            updateTaskModalForm();
         });
     </script>
-    <script src="{% static 'mscore/js/index.js' %}"></script>
 
     {% include "mscore/modal.html" %}
 

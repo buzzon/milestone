@@ -1,6 +1,6 @@
-from bootstrap_modal_forms.generic import BSModalCreateView
+from bootstrap_modal_forms.generic import BSModalCreateView, BSModalUpdateView
 from django.contrib.auth.decorators import login_required
-from django.http import Http404, HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 
@@ -23,17 +23,17 @@ def index(request):
     return render(request, 'mscore/index.html', {'user': user, 'spaces': spaces, 'progress_tasks': progress_tasks})
 
 
-@login_required
-def space_create(request):
-    if request.method == 'POST':
-        form = SpaceForm(request.POST)
-        space_single = form.save(commit=False)
-        space_single.owner = request.user
-        space_single.save()
-    else:
-        form = SpaceForm()
-        form.declared_fields['members'].queryset = form.declared_fields['members'].choices.queryset.exclude(pk=request.user.id)
-    return render(request, 'mscore/form/base.html', {'form': form})
+# @login_required
+# def space_create(request):
+#     if request.method == 'POST':
+#         form = SpaceForm(request.POST)
+#         space_single = form.save(commit=False)
+#         space_single.owner = request.user
+#         space_single.save()
+#     else:
+#         form = SpaceForm()
+#         form.declared_fields['members'].queryset = form.declared_fields['members'].choices.queryset.exclude(pk=request.user.id)
+#     return render(request, 'mscore/form/base.html', {'form': form})
 
 
 class SpaceCreateView(BSModalCreateView):
@@ -48,6 +48,19 @@ class SpaceCreateView(BSModalCreateView):
             space_single.owner = self.request.user
             space_single.save()
         return HttpResponseRedirect(self.success_url)
+
+
+class TaskUpdateView(BSModalUpdateView):
+    model = Task
+    template_name = 'mscore/form/update_task.html'
+    form_class = TaskForm
+    success_message = 'Success: Task was updated.'
+    success_url = reverse_lazy('mscore:index')
+
+
+def space_task_list(request, pk):
+    data = dict()
+    return JsonResponse(data)
 
 
 @login_required
@@ -101,7 +114,7 @@ def task_nested_create(request, space_pk, task_pk):
         task = form.save(commit=False)
         task.space = space_single
         task.parent = task_single
-        task.is_nested = True;
+        task.is_nested = True
         task.save()
 
         return HttpResponseRedirect(reverse('mscore:space_detail', args=(space_pk,)))

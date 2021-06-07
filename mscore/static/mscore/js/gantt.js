@@ -32,17 +32,18 @@ function DrawGantPeriod(tasks){
     }
     resize();
     tasks.forEach(element => addTaskGantt(element));
+    updateTaskModalForm();
 }
 
 function addTaskGantt(element){
     var $tasks = $('#tasks');
     $div = taskCreate($tasks, element);
-    console.log(element);
+//    console.log(element);
 
-    $div.on('click', function(){
-        console.log(this.id);
-        window.location.href = taskChangeUrl.replace('0', this.id);
-    });
+//    $div.on('click', function(){
+//        console.log(this.id);
+//        window.location.href = taskChangeUrl.replace('0', this.id);
+//    });
 }
 
 
