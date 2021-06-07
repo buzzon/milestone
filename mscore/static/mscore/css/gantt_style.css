@@ -29,16 +29,47 @@ body{
 }
 
 .task{
-    white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
-    margin: 5px 0;
-    padding: 0 10px;
+    margin: 10px 0;
     color: white;
     background: #353232;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 50px;
     position: relative;
+    display: flex;
+}
+
+.task-title{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.state{
+    border-radius: 500px;
+    min-width:14px;
+    min-height:14px;
+    margin: auto 5px;
+}
+
+.taskA{
+    background-color: #17A2B8;
+}
+
+.taskW{
+    background-color: #6C757D;
+}
+
+.taskP{
+    background-color: #007BFF;
+}
+
+.taskR{
+    background-color: #28A745;
+}
+
+.taskC{
+    background-color: #FFC107;
 }
 
 .task_on_list{

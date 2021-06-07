@@ -38,13 +38,22 @@ function addTaskGantt(element){
     var $tasks = $('#tasks');
     $div = taskCreate($tasks, element);
     console.log(element);
-    // $div.css( { paddingLeft : pre_indent + "px" } );   
+
+    $div.on('click', function(){
+        console.log(this.id);
+        window.location.href = taskChangeUrl.replace('0', this.id);
+    });
 }
 
 
 function taskCreate($parent, element){
     var time_width = (Date.parse(element.deadline) - Date.parse(element.initial_date)) / 1000 / 60 / 60 / 24 * col_size;
-    return $parent.append('<div id="' + element.id + '" class="task noselect" style="width:'+ time_width + 'px; margin-left:' + getPreindent(element) + 'px">' + element.title + '</div>');
+    var $task = $('').add('<div id="' + element.id + '" class="task noselect" style="width:'+ time_width + 'px; margin-left:' + getPreindent(element) + 'px"></div>');
+    var $state = $('').add('<div class="state task' + element.status + '"></div>');
+    var $title = $('').add('<div class="task-title">' + element.title  + '</div>');
+    $task.append($state).append($title);
+    $parent.append($task);
+    return $task;
 }
 
 function getPreindent(element){
@@ -100,15 +109,3 @@ $('.task_on_list').on('mousedown', function(){
     $('#time-list').animate({scrollLeft:  $(currentElement).css('margin-left')}, 1000);
 });
 
-
-$('.task-gantt').on('mouseup', function(){ 
-    // // var el = $(this);
-    // // var dest = el.attr('href'); // получаем направление
-    // // if(55 !== undefined && 55 !== '') { // проверяем существование
-    //     $('html').animate({ 
-    // 	    scrollLeft: 200 // прокручиваем страницу к требуемому элементу
-    //     }, 500 // скорость прокрутки
-    //     );
-    // // }
-
-});
