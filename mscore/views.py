@@ -1,7 +1,8 @@
+from bootstrap_modal_forms.generic import BSModalCreateView
 from django.contrib.auth.decorators import login_required
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 
 from mscore.api.views import SpaceList, SpaceDetail
 from mscore.forms import TaskForm, SpaceForm
@@ -33,6 +34,20 @@ def space_create(request):
         form = SpaceForm()
         form.declared_fields['members'].queryset = form.declared_fields['members'].choices.queryset.exclude(pk=request.user.id)
     return render(request, 'mscore/form/base.html', {'form': form})
+
+
+class SpaceCreateView(BSModalCreateView):
+    template_name = 'mscore/form/create_space.html'
+    form_class = SpaceForm
+    success_message = 'Success: Space was created.'
+    success_url = reverse_lazy('mscore:index')
+
+    def form_valid(self, form):
+        if not self.request.is_ajax():
+            space_single = form.save(commit=False)
+            space_single.owner = self.request.user
+            space_single.save()
+        return HttpResponseRedirect(self.success_url)
 
 
 @login_required

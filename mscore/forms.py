@@ -3,6 +3,7 @@ from django.core.exceptions import NON_FIELD_ERRORS
 from django import forms
 
 from mscore.models import Task, Space
+from bootstrap_modal_forms.forms import BSModalModelForm
 
 
 class TaskForm(forms.ModelForm):
@@ -16,10 +17,9 @@ class TaskForm(forms.ModelForm):
         }
 
 
-class SpaceForm(forms.ModelForm):
+class SpaceForm(BSModalModelForm):
     class Meta:
         model = Space
-        # exclude = ['tasks']
         fields = ['title', 'members']
 
     members = forms.ModelMultipleChoiceField(
