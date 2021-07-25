@@ -36,13 +36,13 @@ function addTimeColumnRight(){
         $('#time-list').append('<div class="time-column noselect"><div class="time-data">'
         + formatDate(i) + '</div><div class="time-border"></div></div>');
     }
-
+    last_date = new_last_date;
     loading = false;
 }
 
 function addTimeColumnLeft(){
     var new_first_date = new Date(first_date);
-    new_first_date.setDate(new_first_date.getDate() - 10);
+    new_first_date.setDate(new_first_date.getDate() - 11);
 
     for(var i = new Date(first_date); i > new_first_date; i.setDate(i.getDate() - 1)){
         $('#tasks').after('<div class="time-column noselect"><div class="time-data">'

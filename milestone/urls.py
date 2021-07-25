@@ -20,6 +20,5 @@ urlpatterns = [
     path('', include('mscore.urls')),
     path('api/mscore/', include('mscore.api.urls')),
     path('accounts/', include('user_manager.urls')),
-    path('accounts/', include('django.contrib.auth.urls')),
     path('admin/', admin.site.urls),
 ]

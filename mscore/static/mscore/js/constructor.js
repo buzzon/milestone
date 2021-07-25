@@ -18,11 +18,16 @@ $('#content').removeClass('row');
 
 $ajax =  $.ajax;
 
+var first_date = new Date();
+var last_date = new Date();
+first_date.setDate(first_date.getDate() - 10);
+last_date.setDate(last_date.getDate() + 10);
+
 $.ajax({
 	url: '/api/mscore/task/period/',
 	method: 'get',
 	dataType: 'json',
-    data: {space_id},
+    data: {space_id, first_date: first_date.toUTCString(), last_date : last_date.toUTCString()},
 	success: function(data){
 	    first_layer_count = data.task.length;
 	    if (first_layer_count){

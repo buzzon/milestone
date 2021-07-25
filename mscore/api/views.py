@@ -24,6 +24,7 @@ class SpaceList(generics.ListCreateAPIView):
     serializer_class = SpaceSerializer
     model = Space
 
+
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
@@ -52,16 +53,6 @@ class SpaceDetail(generics.RetrieveUpdateDestroyAPIView):
         return (membered_spaces | owned_spaces).distinct()
 
 
-# @permission_classes([IsAuthenticated])
-# class TaskList(generics.ListAPIView):
-#     serializer_class = TaskSerializer
-#     model = Task
-#
-#     def get_queryset(self):
-#         # return Task.objects.filter(space=self.request.GET['space'])
-#         return Task.objects.filter(is_nested=False)
-
-
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_task_time_period(request):
@@ -77,7 +68,7 @@ def get_task_time_period(request):
 @permission_classes([IsAuthenticated])
 def task_change(request):
     if request.method == 'POST':
-        task = Task.objects.filter(space=request.POST['space']).get(pk=request.POST['pk'])
+        task = Task.objects.filter(space=request.POST['space_id']).get(pk=request.POST['pk'])
         task.title = request.POST['title']
         task.save()
         return Response({'task': TaskSerializer(task).data})
@@ -87,12 +78,12 @@ def task_change(request):
 @permission_classes([IsAuthenticated])
 def task_create(request):
     if request.method == 'POST':
-        space_single = Space.objects.get(pk=request.POST['space'])
+        space_single = Space.objects.get(pk=request.POST['space_id'])
         is_nested = request.POST['is_nested']
         if request.POST.get('pk', None) is None:
             new_task = Task(space=space_single)
         else:
-            task = Task.objects.filter(space=request.POST['space']).get(pk=request.POST['pk'])
+            task = Task.objects.filter(space=request.POST['space_id']).get(pk=request.POST['pk'])
             if is_nested == '1':
                 new_task = Task(space=space_single, parent=task, is_nested=True)
             else:
@@ -105,6 +96,6 @@ def task_create(request):
 @permission_classes([IsAuthenticated])
 def task_delete(request):
     if request.method == 'POST':
-        task = Task.objects.filter(space=request.POST['space']).get(pk=request.POST['pk'])
+        task = Task.objects.filter(space=request.POST['space_id']).get(pk=request.POST['pk'])
         task.delete()
         return Response({'task': 'deleted'})
